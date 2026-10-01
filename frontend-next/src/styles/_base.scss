@@ -1,0 +1,72 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// ---- Theme tokens: light by default, dark when <html data-theme="dark"> ----
+:root {
+  @include theme-tokens($theme-day);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  @include theme-tokens($theme-night);
+  color-scheme: dark;
+}
+
+// ---- Base elements ----
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg-page);
+  color: var(--text-main);
+  font-family: $font-family-main;
+  font-size: $font-body;
+  line-height: $line-height-main;
+  // never allow the page itself to scroll sideways
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.25;
+}
+
+// PrimeReact's theme lives in a CSS @layer, so any un-layered rule here beats it.
+// Keep link colours off links that are styled as buttons (LinkButton).
+// :where() keeps specificity at 0 so classes like .app-nav-link still win.
+:where(a:not(.p-button)) {
+  color: var(--brand-main);
+}
+
+a.p-button {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// ---- Page container ----
+.main-container {
+  width: 100%;
+  max-width: $container-max;
+  margin: 0 auto;
+  padding: $space-6;
+
+  @include bp-down($bp-768) {
+    padding: $space-4;
+  }
+}

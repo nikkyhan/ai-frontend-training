@@ -1,0 +1,82 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// ---- Form layout: 2 columns on desktop, 1 column on tablet/phone ----
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $space-5;
+
+  @include bp-down($bp-768) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: $space-4;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  min-width: 0;
+
+  &.is-full {
+    grid-column: 1 / -1;
+  }
+
+  // PrimeReact inputs fill their column
+  .p-inputtext,
+  .p-dropdown,
+  .p-inputnumber,
+  .p-calendar {
+    width: 100%;
+  }
+}
+
+.form-label {
+  font-size: $font-small;
+  font-weight: $weight-medium;
+}
+
+.form-required {
+  color: var(--danger-main);
+}
+
+.form-hint {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-2;
+  color: var(--text-sub);
+  font-size: $font-tiny;
+}
+
+.form-error {
+  color: var(--danger-main);
+  font-size: $font-tiny;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: $space-2;
+  margin-top: $space-6;
+
+  @include bp-down($bp-480) {
+    flex-direction: column-reverse;
+
+    .p-button {
+      width: 100%;
+    }
+  }
+}
+
+.form-banner {
+  display: flex;
+  gap: $space-2;
+  margin-bottom: $space-5;
+  padding: $space-3 $space-4;
+  border-radius: $radius-sm;
+  background: var(--danger-soft);
+  color: var(--danger-main);
+  font-size: $font-small;
+}

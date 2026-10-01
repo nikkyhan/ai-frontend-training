@@ -1,0 +1,7 @@
+// Entry point: imports every partial (WM folder structure).
+@use "base";
+@use "header";
+@use "component";
+@use "form-element";
+@use "button";
+@use "pages/books";

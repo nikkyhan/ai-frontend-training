@@ -1,0 +1,39 @@
+{
+  "name": "books-admin-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "node scripts/copy-themes.mjs",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:mutation": "cross-env E2E_MUTATION=true playwright test books.mutation"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.0",
+    "axios": "^1.12.0",
+    "next": "^15.5.0",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.9.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.0",
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "cross-env": "^10.0.0",
+    "eslint": "^9.35.0",
+    "eslint-config-next": "^15.5.0",
+    "sass": "^1.92.0",
+    "typescript": "^5.9.0"
+  }
+}

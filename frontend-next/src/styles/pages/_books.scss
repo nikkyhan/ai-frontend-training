@@ -1,0 +1,147 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+// =============== Books list ===============
+
+// ---- Filter bar: search + genre + reset ----
+.book-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  margin-bottom: $space-4;
+
+  .book-search {
+    flex: 1 1 $filter-search-basis;
+    min-width: 0;
+
+    .p-inputtext {
+      width: 100%;
+    }
+  }
+
+  .book-genre-filter {
+    flex: 0 1 $filter-select-basis;
+    min-width: 0;
+  }
+
+  @include bp-down($bp-640) {
+    .book-search,
+    .book-genre-filter {
+      flex: 1 1 100%;
+    }
+  }
+}
+
+// ---- Table: scrolls inside its own box, never pushes the page wider ----
+.book-table-card {
+  @include card;
+  overflow: hidden;
+}
+
+.book-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+
+  .p-datatable-table {
+    min-width: $table-min-width;
+  }
+}
+
+.book-title-cell {
+  display: flex;
+  flex-direction: column;
+  min-width: $title-col-min;
+}
+
+.book-title-link {
+  color: var(--text-main);
+  font-weight: $weight-medium;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--brand-main);
+    text-decoration: underline;
+  }
+}
+
+.book-author {
+  color: var(--text-sub);
+  font-size: $font-small;
+}
+
+.book-isbn {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.book-number {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.book-row-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-1;
+}
+
+.book-result-count {
+  margin: 0 0 $space-3;
+  color: var(--text-sub);
+  font-size: $font-small;
+}
+
+// =============== Create / edit ===============
+.book-form-wrapper {
+  max-width: $form-max-width;
+}
+
+// =============== Book details ===============
+.book-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $space-5;
+  margin: 0;
+
+  @include bp-down($bp-991) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include bp-down($bp-480) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.book-details-item {
+  min-width: 0;
+
+  dt {
+    color: var(--text-sub);
+    font-size: $font-tiny;
+    font-weight: $weight-medium;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: $space-1 0 0;
+    overflow-wrap: anywhere;
+  }
+
+  &.is-full {
+    grid-column: 1 / -1;
+  }
+}
+
+.book-description {
+  max-width: $description-max-width;
+  white-space: pre-line;
+}
+
+.book-meta {
+  margin-top: $space-6;
+  padding-top: $space-4;
+  border-top: $border-width solid var(--border-main);
+  color: var(--text-sub);
+  font-size: $font-tiny;
+}

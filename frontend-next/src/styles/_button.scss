@@ -1,0 +1,18 @@
+@use "variables" as *;
+
+// Buttons get their width from padding, never a fixed px width (WM).
+.p-button {
+  min-height: $tap-target-min;
+  white-space: nowrap;
+}
+
+// Square icon-only buttons in table rows
+.icon-button.p-button {
+  width: $tap-target-min;
+  min-width: $tap-target-min;
+  padding: 0;
+}
+
+.theme-toggle.p-button {
+  flex-shrink: 0;
+}

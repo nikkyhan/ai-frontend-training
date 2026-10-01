@@ -1,0 +1,30 @@
+@use "variables" as *;
+
+// Media query: applies at this width and below (desktop-first, WM breakpoints).
+@mixin bp-down($width) {
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
+// Writes a map of theme tokens as CSS custom properties.
+@mixin theme-tokens($map) {
+  @each $name, $value in $map {
+    --#{$name}: #{$value};
+  }
+}
+
+// Card surface used by tables, forms and detail panels.
+@mixin card {
+  background: var(--bg-card);
+  border: $border-width solid var(--border-main);
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+}
+
+// Single-line text with "…" when it does not fit.
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

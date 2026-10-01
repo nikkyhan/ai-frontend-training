@@ -1,0 +1,93 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// ---- App header: brand, navigation, theme toggle ----
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-card);
+  border-bottom: $border-width solid var(--border-main);
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  gap: $space-6;
+  max-width: $container-max;
+  min-height: $header-height;
+  margin: 0 auto;
+  padding: 0 $space-6;
+
+  @include bp-down($bp-768) {
+    gap: $space-3;
+    padding: 0 $space-4;
+  }
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  color: var(--text-main);
+  font-size: $font-h3;
+  font-weight: $weight-bold;
+  text-decoration: none;
+  white-space: nowrap;
+
+  .pi {
+    color: var(--brand-main);
+  }
+
+  // Phones: icon only, so nav and theme toggle fit
+  @include bp-down($bp-480) {
+    .app-brand-text {
+      display: none;
+    }
+  }
+}
+
+.app-nav {
+  display: flex;
+  flex: 1;
+  gap: $space-2;
+  min-width: 0;
+}
+
+.app-nav-link {
+  padding: $space-2 $space-3;
+  border-radius: $radius-sm;
+  color: var(--text-sub);
+  font-weight: $weight-medium;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--bg-muted);
+    color: var(--text-main);
+  }
+
+  &.is-active {
+    background: var(--brand-soft);
+    color: var(--brand-main);
+  }
+
+  @include bp-down($bp-480) {
+    padding: $space-2;
+    font-size: $font-small;
+  }
+}
+
+.mock-badge {
+  padding: $space-1 $space-2;
+  border-radius: $radius-pill;
+  background: var(--warning-soft);
+  color: var(--warning-main);
+  font-size: $font-tiny;
+  font-weight: $weight-bold;
+  white-space: nowrap;
+
+  @include bp-down($bp-480) {
+    display: none;
+  }
+}

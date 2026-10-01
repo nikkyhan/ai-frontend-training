@@ -1,0 +1,128 @@
+// =============================================================
+// Variables — the ONLY place raw colour / size values are allowed.
+// Naming (WM): colour + code, e.g. $blue-b1. Never $blue-dark.
+// =============================================================
+
+// ---- Palette (constants) ----
+$white-w1: #ffffff;
+
+$grey-g1: #f8fafc;
+$grey-g2: #f1f5f9;
+$grey-g3: #e2e8f0;
+$grey-g4: #94a3b8;
+$grey-g5: #64748b;
+$grey-g6: #334155;
+$grey-g7: #1e293b;
+$grey-g8: #0f172a;
+$grey-g9: #020617;
+
+$blue-b1: #2563eb;
+$blue-b2: #1d4ed8;
+$blue-b3: #dbeafe;
+$blue-b4: #60a5fa;
+$blue-b5: #172554;
+
+$red-r1: #dc2626;
+$red-r2: #fee2e2;
+$red-r3: #f87171;
+$red-r4: #450a0a;
+
+$green-n1: #15803d;
+$green-n2: #dcfce7;
+$green-n3: #4ade80;
+$green-n4: #052e16;
+
+$amber-a1: #b45309;
+$amber-a2: #fef3c7;
+$amber-a3: #fbbf24;
+$amber-a4: #451a03;
+
+// ---- Theme tokens (WM Light/Dark): every [day] token has exactly one [night]
+// token with the same name. Components use var(--token), never palette values.
+$theme-day: (
+  bg-page: $grey-g1,
+  bg-card: $white-w1,
+  bg-muted: $grey-g2,
+  text-main: $grey-g8,
+  text-sub: $grey-g5,
+  border-main: $grey-g3,
+  brand-main: $blue-b1,
+  brand-hover: $blue-b2,
+  brand-soft: $blue-b3,
+  danger-main: $red-r1,
+  danger-soft: $red-r2,
+  success-main: $green-n1,
+  success-soft: $green-n2,
+  warning-main: $amber-a1,
+  warning-soft: $amber-a2,
+);
+
+$theme-night: (
+  bg-page: $grey-g9,
+  bg-card: $grey-g8,
+  bg-muted: $grey-g7,
+  text-main: $grey-g1,
+  text-sub: $grey-g4,
+  border-main: $grey-g6,
+  brand-main: $blue-b4,
+  brand-hover: $blue-b3,
+  brand-soft: $blue-b5,
+  danger-main: $red-r3,
+  danger-soft: $red-r4,
+  success-main: $green-n3,
+  success-soft: $green-n4,
+  warning-main: $amber-a3,
+  warning-soft: $amber-a4,
+);
+
+// ---- Spacing scale ----
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-8: 32px;
+$space-10: 40px;
+
+// ---- Typography (one font family for the whole site) ----
+$font-family-main: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-h1: 28px;
+$font-h2: 22px;
+$font-h3: 18px;
+$font-body: 16px;
+$font-small: 14px;
+$font-tiny: 12px;
+$weight-regular: 400;
+$weight-medium: 500;
+$weight-bold: 700;
+$line-height-main: 1.5;
+
+// ---- Shape ----
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-pill: 999px;
+$border-width: 1px;
+$shadow-card: 0 1px 3px rgba(15, 23, 42, 0.08);
+
+// ---- Layout ----
+$container-max: 1280px;
+$header-height: 64px;
+$table-min-width: 860px;
+$title-col-min: 200px;
+$filter-search-basis: 280px;
+$filter-select-basis: 220px;
+$form-max-width: 760px;
+$tap-target-min: 44px;
+$description-max-width: 72ch;
+
+// ---- Breakpoints (WM): 1920 → 1600 → 1366 → 1280 → 1024 → 991 → 768 → 640 → 480 → 375
+$bp-1600: 1600px;
+$bp-1366: 1366px;
+$bp-1280: 1280px;
+$bp-1024: 1024px;
+$bp-991: 991px;
+$bp-768: 768px;
+$bp-640: 640px;
+$bp-480: 480px;
+$bp-375: 375px;
