@@ -1,0 +1,7 @@
+# Store text files with LF line endings (gofmt and most tools expect LF)
+* text=auto eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.ico binary
