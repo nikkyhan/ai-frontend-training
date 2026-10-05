@@ -6,8 +6,8 @@ services:
     runtime: go
     plan: free
     rootDir: backend-go
-    buildCommand: go build -o server ./cmd/server
-    startCommand: ./server
+    buildCommand: go build -tags netgo -ldflags "-s -w" -o app
+    startCommand: ./app
     healthCheckPath: /health
     autoDeploy: true
     envVars:

@@ -9,10 +9,12 @@ go test ./... -count=1
 go vet ./...
 gofmt -l .
 
-Env: PORT (8080), CORS_ORIGIN (http://localhost:3000), SEED (set "false" to start empty)
+Env: PORT (8080), CORS_ORIGIN (comma list; default http://localhost:3000,https://ai-frontend-training.vercel.app), SEED (set "false" to start empty)
+Deploy: Render builds the module root (`go build -o app`, start `./app`) — that is why main.go exists at the root.
 
 ## Layout
-cmd/server/main.go           wiring: store, routes, middleware
+main.go, cmd/server/main.go  entry points (both call internal/app.Run)
+internal/app/app.go          wiring: store, routes, middleware
 internal/book/model.go       Book, Input, ListQuery
 internal/book/validate.go    validation rules — frontend copies them in src/utils/book-rules.ts
 internal/book/store.go       thread-safe in-memory repository (filter, sort, page)
