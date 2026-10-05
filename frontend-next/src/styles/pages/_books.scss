@@ -3,12 +3,19 @@
 
 // =============== Books list ===============
 
-// ---- Filter bar: search + genre + reset ----
+// ---- List card: toolbar + body + footer in one card (Figma) ----
+.book-list-card {
+  @include card;
+  overflow: hidden;
+}
+
+// ---- Toolbar: search + genre (+ sort in card view) + clear ----
 .book-filters {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: $space-3;
-  margin-bottom: $space-4;
+  padding: $space-4;
 
   .book-search {
     flex: 1 1 $filter-search-basis;
@@ -24,6 +31,24 @@
     min-width: 0;
   }
 
+  // Sort dropdown only exists for the card view
+  .book-sort-filter {
+    display: none;
+  }
+
+  .book-clear-filters.p-button {
+    padding-inline: $space-2;
+  }
+
+  // Tablet: search + genre on one row, sort full width below
+  @include bp-down($bp-1024) {
+    .book-sort-filter {
+      display: inline-flex;
+      flex: 1 1 100%;
+    }
+  }
+
+  // Phone: everything stacked
   @include bp-down($bp-640) {
     .book-search,
     .book-genre-filter {
@@ -32,12 +57,22 @@
   }
 }
 
-// ---- Table: scrolls inside its own box, never pushes the page wider ----
-.book-table-card {
-  @include card;
-  overflow: hidden;
+// ---- Desktop table ↔ tablet/phone cards ----
+.book-view-cards {
+  display: none;
 }
 
+@include bp-down($bp-1024) {
+  .book-view-table {
+    display: none;
+  }
+
+  .book-view-cards {
+    display: block;
+  }
+}
+
+// ---- Table: scrolls inside its own box, never pushes the page wider ----
 .book-table-scroll {
   width: 100%;
   overflow-x: auto;
@@ -54,12 +89,12 @@
 }
 
 .book-title-link {
-  color: var(--text-main);
+  color: var(--brand-main);
   font-weight: $weight-medium;
   text-decoration: none;
 
   &:hover {
-    color: var(--brand-main);
+    color: var(--brand-hover);
     text-decoration: underline;
   }
 }
@@ -69,14 +104,9 @@
   font-size: $font-small;
 }
 
-.book-isbn {
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
+.book-isbn,
 .book-number {
   font-variant-numeric: tabular-nums;
-  text-align: right;
   white-space: nowrap;
 }
 
@@ -86,10 +116,129 @@
   gap: $space-1;
 }
 
-.book-result-count {
-  margin: 0 0 $space-3;
-  color: var(--text-sub);
+// ---- Cards (≤ 1024px) ----
+.book-card-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  padding: $space-4;
+  border-top: $border-width solid var(--border-main);
+
+  .book-title-link {
+    overflow-wrap: anywhere;
+  }
+}
+
+.book-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  margin: $space-3 0;
   font-size: $font-small;
+
+  div {
+    display: flex;
+    gap: $space-1;
+  }
+
+  dt {
+    color: var(--text-sub);
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.book-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+}
+
+.book-card-label {
+  color: var(--text-sub);
+  font-size: $font-tiny;
+}
+
+// ---- Loading placeholder ----
+.book-list-loading {
+  padding: $space-4;
+}
+
+.book-skeleton-row {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  padding: $space-3 0;
+}
+
+.book-skeleton-line.p-skeleton {
+  height: $space-3;
+}
+
+.book-skeleton-line.is-short.p-skeleton {
+  width: 60%;
+}
+
+.book-loading-text {
+  margin: $space-3 0 0;
+  color: var(--text-sub);
+  font-size: $font-tiny;
+}
+
+// ---- Footer: range · pager · rows per page ----
+.book-list-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  border-top: $border-width solid var(--border-main);
+  background: var(--bg-muted);
+
+  .book-paginator.p-paginator {
+    flex-wrap: nowrap;
+    padding: 0;
+    background: transparent;
+
+    // Keep 44px tap targets but drop the extra margins so « ‹ 1 2 › » fits one row on phones
+    .p-paginator-first,
+    .p-paginator-prev,
+    .p-paginator-page,
+    .p-paginator-next,
+    .p-paginator-last {
+      min-width: $tap-target-min;
+      height: $tap-target-min;
+      margin: 0;
+    }
+  }
+
+  @include bp-down($bp-640) {
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.book-range {
+  margin: 0;
+  color: var(--text-sub);
+  font-size: $font-tiny;
+}
+
+.book-rows-per-page {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  color: var(--text-sub);
+  font-size: $font-tiny;
 }
 
 // =============== Create / edit ===============
@@ -104,11 +253,7 @@
   gap: $space-5;
   margin: 0;
 
-  @include bp-down($bp-991) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @include bp-down($bp-480) {
+  @include bp-down($bp-640) {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -127,21 +272,27 @@
     margin: $space-1 0 0;
     overflow-wrap: anywhere;
   }
+}
 
-  &.is-full {
-    grid-column: 1 / -1;
-  }
+// Description sits in its own section under a divider
+.book-description-section {
+  margin-top: $space-6;
+  padding-top: $space-4;
+  border-top: $border-width solid var(--border-main);
 }
 
 .book-description {
   max-width: $description-max-width;
   white-space: pre-line;
+
+  &.is-empty {
+    color: var(--text-sub);
+  }
 }
 
+// Created / updated line below the card
 .book-meta {
-  margin-top: $space-6;
-  padding-top: $space-4;
-  border-top: $border-width solid var(--border-main);
+  margin: $space-3 0 0;
   color: var(--text-sub);
   font-size: $font-tiny;
 }

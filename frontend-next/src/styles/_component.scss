@@ -43,12 +43,13 @@
   align-items: center;
   gap: $space-2;
   margin-bottom: $space-3;
-  color: var(--text-sub);
+  color: var(--brand-main);
   font-size: $font-small;
   text-decoration: none;
 
   &:hover {
-    color: var(--brand-main);
+    color: var(--brand-hover);
+    text-decoration: underline;
   }
 }
 
@@ -97,11 +98,38 @@
   color: var(--danger-main);
 }
 
+// ---- Delete confirmation: phones stack Delete above Cancel, full width (Figma) ----
+.book-confirm-dialog.p-dialog {
+  width: min(#{$dialog-max-width}, calc(100vw - #{$space-8}));
+
+  @include bp-down($bp-480) {
+    .p-dialog-footer {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: $space-2;
+
+      .p-button {
+        width: 100%;
+        margin: 0;
+      }
+    }
+  }
+}
+
+// ---- Toasts: keep a 16px screen inset on phones ----
+@include bp-down($bp-480) {
+  .p-toast.p-toast-top-right {
+    right: $space-4;
+    left: $space-4;
+    width: auto;
+  }
+}
+
 // ---- Status tags ----
 .stock-tag {
   display: inline-block;
   padding: $space-1 $space-2;
-  border-radius: $radius-pill;
+  border-radius: $radius-xs;
   font-size: $font-tiny;
   font-weight: $weight-bold;
   white-space: nowrap;
@@ -125,7 +153,7 @@
 .genre-tag {
   display: inline-block;
   padding: $space-1 $space-2;
-  border-radius: $radius-pill;
+  border-radius: $radius-xs;
   background: var(--bg-muted);
   color: var(--text-sub);
   font-size: $font-tiny;

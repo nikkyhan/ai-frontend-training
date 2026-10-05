@@ -21,9 +21,8 @@ export function AppHeader() {
     <header className="app-header">
       <div className="app-header-inner">
         {/* Brand */}
-        <Link href="/books/list" className="app-brand" aria-label="Books Admin home">
-          <i className="pi pi-book" aria-hidden="true" />
-          <span className="app-brand-text">Books Admin</span>
+        <Link href="/books/list" className="app-brand">
+          Books Admin
         </Link>
 
         {/* Navigation */}

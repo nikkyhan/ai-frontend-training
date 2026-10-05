@@ -18,7 +18,9 @@ export function useConfirmDeleteBook() {
       icon: "pi pi-exclamation-triangle",
       acceptLabel: "Delete",
       rejectLabel: "Cancel",
+      className: "book-confirm-dialog",
       acceptClassName: "p-button-danger",
+      rejectClassName: "p-button-outlined",
       defaultFocus: "reject",
       accept: async () => {
         try {

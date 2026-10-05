@@ -8,7 +8,7 @@ import { StateBox } from "@/components/common/StateBox";
 import { LinkButton } from "@/components/common/LinkButton";
 import { useGetBookDetails } from "@/hooks/API/books/useGetBookDetails";
 import { parseApiError } from "@/utils/api-error";
-import { formatDate, formatDateTime, formatGenre, formatPrice } from "@/utils/format";
+import { formatDate, formatGenre, formatPrice, formatTimestampDate } from "@/utils/format";
 import { StockTag } from "./StockTag";
 import { useConfirmDeleteBook } from "./useConfirmDeleteBook";
 
@@ -101,17 +101,23 @@ export function BookDetailsView({ id }: { id: number }) {
               <StockTag stock={book.stock} />
             </dd>
           </div>
-          <div className="book-details-item is-full">
-            <dt>Description</dt>
-            <dd className="book-description">{book.description || "No description"}</dd>
-          </div>
         </dl>
 
-        {/* Audit info */}
-        <p className="book-meta">
-          Created {formatDateTime(book.createdAt)} · Last updated {formatDateTime(book.updatedAt)}
-        </p>
+        {/* Description — own section under a divider (Figma) */}
+        <dl className="book-description-section">
+          <div className="book-details-item">
+            <dt>Description</dt>
+            <dd className={`book-description${book.description ? "" : " is-empty"}`}>
+              {book.description || "No description"}
+            </dd>
+          </div>
+        </dl>
       </section>
+
+      {/* Audit info, below the card */}
+      <p className="book-meta">
+        Created {formatTimestampDate(book.createdAt)} · Last updated {formatTimestampDate(book.updatedAt)}
+      </p>
     </>
   );
 }

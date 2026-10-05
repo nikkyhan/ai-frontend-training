@@ -46,13 +46,13 @@ A yellow "Mock data" badge shows in the header.
 
 Error shape: `{"statusCode":400,"message":"Validation failed","errors":{"isbn":"ISBN must be exactly 13 digits"}}`
 
-## Checks (all green on Oct 1, 2026)
+## Checks (all green on Oct 5, 2026)
 ```powershell
-cd backend-go;    go vet ./...; go test ./... -count=1     # 8 tests pass
+cd backend-go;    go vet ./...; go test ./... -count=1     # 9 tests pass
 cd frontend-next; npm run lint                            # 0 problems
                   npx tsc --noEmit                        # 0 errors
                   npm run build                           # stop `npm run dev` first
-                  npm run test:e2e                        # 45 passed (starts backend + frontend if needed)
+                  npm run test:e2e                        # 47 passed (starts backend + frontend if needed)
                   npm run test:e2e:mutation               # 4 passed — creates/deletes data, local only
 ```
 `npm run test:e2e` also regenerates the screenshots in `frontend-next/docs/screenshots/`.

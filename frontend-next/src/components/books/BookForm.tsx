@@ -88,6 +88,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
     const error = errorFor(field);
     return {
       id: `book-${field}`,
+      disabled: isSaving,
       invalid: Boolean(error),
       "aria-invalid": Boolean(error),
       "aria-describedby": error ? `book-${field}-error` : undefined,
@@ -166,6 +167,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
           </label>
           <Dropdown
             inputId="book-genre"
+            disabled={isSaving}
             className="book-genre-select"
             invalid={Boolean(errorFor("genre"))}
             aria-describedby={errorFor("genre") ? "book-genre-error" : undefined}
@@ -185,6 +187,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
           </label>
           <Calendar
             inputId="book-publishedDate"
+            disabled={isSaving}
             invalid={Boolean(errorFor("publishedDate"))}
             aria-describedby={errorFor("publishedDate") ? "book-publishedDate-error" : undefined}
             value={fromIsoDate(values.publishedDate)}
@@ -206,6 +209,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
           </label>
           <InputNumber
             inputId="book-price"
+            disabled={isSaving}
             invalid={Boolean(errorFor("price"))}
             aria-describedby={errorFor("price") ? "book-price-error" : undefined}
             value={values.price}
@@ -215,7 +219,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
             onValueChange={(e) => setField("price", e.value ?? null)}
             onBlur={() => touch("price")}
           />
-          {errorText("price")}
+          {errorText("price") ?? <small className="form-hint-text">0–{formatNumber(BOOK_RULES.PRICE_MAX)}</small>}
         </div>
 
         {/* Stock */}
@@ -225,6 +229,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
           </label>
           <InputNumber
             inputId="book-stock"
+            disabled={isSaving}
             invalid={Boolean(errorFor("stock"))}
             aria-describedby={errorFor("stock") ? "book-stock-error" : undefined}
             value={values.stock}
@@ -234,14 +239,17 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
             onValueChange={(e) => setField("stock", e.value ?? null)}
             onBlur={() => touch("stock")}
           />
-          {errorText("stock")}
+          {errorText("stock") ?? <small className="form-hint-text">0–{formatNumber(BOOK_RULES.STOCK_MAX)}</small>}
         </div>
 
         {/* Description */}
         <div className="form-field is-full">
-          <label htmlFor="book-description" className="form-label">
-            Description
-          </label>
+          <div className="form-label-row">
+            <label htmlFor="book-description" className="form-label">
+              Description
+            </label>
+            <span className="form-optional">Optional</span>
+          </div>
           <InputTextarea
             {...fieldProps("description")}
             value={values.description}
@@ -251,7 +259,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
             onBlur={() => touch("description")}
           />
           <div className="form-hint">
-            {errorText("description") ?? <span>Optional</span>}
+            {errorText("description") ?? <span />}
             <span>
               {formatNumber(descriptionLength)} / {formatNumber(BOOK_RULES.DESCRIPTION_MAX)}
             </span>
@@ -262,7 +270,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
       {/* Actions */}
       <div className="form-actions">
         <Button type="button" label="Cancel" outlined onClick={onCancel} disabled={isSaving} />
-        <Button type="submit" label={isSaving ? "Saving…" : submitLabel} icon="pi pi-check" loading={isSaving} />
+        <Button type="submit" label={isSaving ? "Saving…" : submitLabel} loading={isSaving} />
       </div>
     </form>
   );

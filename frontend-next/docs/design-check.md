@@ -1,8 +1,29 @@
 # Design check — Books list (Homework 1, Step 2 Part A)
 
-No Figma frame was provided for this homework, so the screen follows the existing PrimeReact
-Lara theme plus our own WM-style tokens. Below is the WM HTML-guideline checklist with the
-decision taken and the question that **must go to the designer** before real project work.
+**Design:** [Figma — Books](https://www.figma.com/design/rYDrRiVo4LS8Qa7eOpq88n/Untitled?node-id=0-1)
+(frames at 1920 / 1440 / 1024 / 768 / 375, light + dark, supplementary states, UI kit).
+The screens were first built before the Figma file existed, then updated on Oct 5, 2026 to match it.
+
+## What changed to match Figma (Oct 5, 2026)
+| Area | Figma | Implemented |
+|------|-------|-------------|
+| List ≤ 1024px | Stacked book cards + "Sort by" dropdown | `BookCardList`, sort dropdown in `BookFilters` (CSS switch at `$bp-1024`) |
+| List toolbar | Search + genre inside the list card | `.book-list-card` holds toolbar, body and footer |
+| List footer | "1–10 of 12 books" · pager · Rows per page | `BookListFooter` |
+| Links | Title and back links in brand blue | `.book-title-link`, `.back-link` |
+| Badges | Rounded rectangles | `$radius-xs` |
+| Genre filter | "All genres" option | first option in `GENRE_OPTIONS` |
+| Loading | Skeleton bars + "Loading books…" | `BookListLoading` |
+| Form | Range hints, "Optional" beside label, divider above actions, fields disabled while saving | `BookForm` |
+| Details | Description in its own section; created/updated date below the card | `BookDetailsView` |
+| Delete dialog | Cancel outlined; phones: Delete above Cancel, full width | `.book-confirm-dialog` |
+| Sample data | 12-book catalogue shown in the frames | Go seed + mock data |
+
+**Kept on purpose:** the load-error box also shows the API's message under "Could not load books"
+(Homework 2 requires API error messages to be visible).
+
+## WM checklist
+Below is the WM HTML-guideline checklist with the decision taken and the question for the designer.
 
 | # | WM check | Status | Decision taken / question for designer |
 |---|----------|--------|----------------------------------------|

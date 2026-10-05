@@ -26,24 +26,15 @@
 }
 
 .app-brand {
-  display: flex;
-  align-items: center;
-  gap: $space-2;
   color: var(--text-main);
   font-size: $font-h3;
   font-weight: $weight-bold;
   text-decoration: none;
   white-space: nowrap;
 
-  .pi {
-    color: var(--brand-main);
-  }
-
-  // Phones: icon only, so nav and theme toggle fit
+  // Phones: slightly smaller so name, nav and theme toggle fit on one row
   @include bp-down($bp-480) {
-    .app-brand-text {
-      display: none;
-    }
+    font-size: $font-body;
   }
 }
 

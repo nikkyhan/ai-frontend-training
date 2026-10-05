@@ -7,7 +7,7 @@ test.describe("Books list", () => {
   test("opens with title, count and first page of rows", async ({ page }) => {
     await openBookList(page);
     await expect(page).toHaveTitle("Books | Books Admin");
-    await expect(page.getByText("12 books")).toBeVisible();
+    await expect(page.getByText("1–10 of 12 books")).toBeVisible();
     await expect(bookRows(page)).toHaveCount(10);
   });
 
@@ -28,8 +28,8 @@ test.describe("Books list", () => {
 
   test("genre filter shows only that genre", async ({ page }) => {
     await openBookList(page);
-    await selectDropdown(page, ".book-genre-filter", "Technology");
-    await expect(page.getByText("3 books")).toBeVisible();
+    await selectDropdown(page, ".book-genre-filter", "Fiction");
+    await expect(page.getByText("1–3 of 3 books")).toBeVisible();
     await expect(bookRows(page)).toHaveCount(3);
   });
 
@@ -42,8 +42,8 @@ test.describe("Books list", () => {
   test("sort by price ascending puts the cheapest first", async ({ page }) => {
     await openBookList(page);
     await page.getByRole("columnheader", { name: "Price" }).click();
-    await expect(bookRows(page).first()).toContainText("The Little Prince");
-    await expect(bookRows(page).first()).toContainText("₩9,900");
+    await expect(bookRows(page).first()).toContainText("The Very Hungry Caterpillar");
+    await expect(bookRows(page).first()).toContainText("₩10,500");
   });
 
   test("shows a loading placeholder while data is on its way", async ({ page }) => {
@@ -68,13 +68,14 @@ test.describe("Books list", () => {
 test.describe("Book details", () => {
   test("opens from the list and shows formatted values", async ({ page }) => {
     await openBookList(page);
-    await page.getByLabel("Search books").fill("9780134190440");
+    await page.getByLabel("Search books").fill("9780060254926");
     await expect(bookRows(page)).toHaveCount(1);
-    await page.getByRole("link", { name: "The Go Programming Language" }).click();
+    await page.getByRole("link", { name: "Where the Wild Things Are" }).click();
     await expect(page).toHaveURL(/\/books\/details\/\d+$/);
-    await expect(page.getByRole("heading", { name: "The Go Programming Language" })).toBeVisible();
-    await expect(page.getByText("₩42,000")).toBeVisible();
-    await expect(page.getByText("Oct 26, 2015")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Where the Wild Things Are" })).toBeVisible();
+    await expect(page.getByText("₩12,500")).toBeVisible();
+    await expect(page.getByText("Nov 9, 1988")).toBeVisible();
+    await expect(page.getByText("No description")).toBeVisible();
   });
 
   test("unknown ID shows Book not found", async ({ page }) => {
@@ -123,6 +124,6 @@ test.describe("Book form validation", () => {
     await page.getByRole("button", { name: "Edit Clean Code" }).click();
     await expect(page.locator("#book-title")).toHaveValue("Clean Code");
     await expect(page.locator("#book-isbn")).toHaveValue("9780132350884");
-    await expect(page.locator("#book-price")).toHaveValue("38,500");
+    await expect(page.locator("#book-price")).toHaveValue("32,000");
   });
 });

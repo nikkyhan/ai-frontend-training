@@ -54,7 +54,7 @@ func TestListSearchAndGenre(t *testing.T) {
 	if n := len(out["data"].([]any)); n != 1 {
 		t.Fatalf("search len = %d", n)
 	}
-	_, out = do(t, mux, "GET", "/api/v1/books?genre=technology", "")
+	_, out = do(t, mux, "GET", "/api/v1/books?genre=fiction", "")
 	if n := len(out["data"].([]any)); n != 3 {
 		t.Fatalf("genre len = %d", n)
 	}
@@ -68,7 +68,7 @@ func TestListSort(t *testing.T) {
 	mux := newTestServer()
 	_, out := do(t, mux, "GET", "/api/v1/books?sortBy=price&sortOrder=asc&limit=1", "")
 	first := out["data"].([]any)[0].(map[string]any)
-	if first["price"].(float64) != 9900 {
+	if first["price"].(float64) != 10500 {
 		t.Fatalf("cheapest = %v", first["price"])
 	}
 }

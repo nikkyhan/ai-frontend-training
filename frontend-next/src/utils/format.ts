@@ -2,13 +2,8 @@
 
 const numberFormat = new Intl.NumberFormat("en-US");
 const dateFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
-const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-  hour: "numeric",
-  minute: "2-digit",
-});
+// Same look as dateFormat, but in the viewer's time zone (for server timestamps)
+const localDateFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric" });
 
 /** 1234567 → "1,234,567" */
 export function formatNumber(value: number): string {
@@ -27,10 +22,10 @@ export function formatDate(isoDate: string): string {
   return dateFormat.format(new Date(Date.UTC(y, m - 1, d)));
 }
 
-/** ISO timestamp → "Oct 1, 2026, 4:30 PM" (AM/PM after the number, per WM) */
-export function formatDateTime(iso: string): string {
+/** ISO timestamp → "Oct 1, 2026" in the viewer's time zone (details page audit line) */
+export function formatTimestampDate(iso: string): string {
   const date = new Date(iso);
-  return Number.isNaN(date.getTime()) ? iso : dateTimeFormat.format(date);
+  return Number.isNaN(date.getTime()) ? iso : localDateFormat.format(date);
 }
 
 /** Date → "YYYY-MM-DD" in local time (for sending to the API). */

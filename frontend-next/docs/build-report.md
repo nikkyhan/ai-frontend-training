@@ -36,7 +36,7 @@ To test the "No books yet" state, start the backend with `SEED=false`.
 ## 7. What to test
 1. Open the list: 12 books, 10 per page, page 2 has 2.
 2. Search "orwell" → only "1984". Search "zzzz" → "No books match your search".
-3. Genre filter "Technology" → 3 books.
+3. Genre filter "Fiction" → 3 books.
 4. Sort by price (click header twice).
 5. Add a book with all fields → appears in list; try the same ISBN again → error under ISBN.
 6. Try to break the form: empty, 1-letter title, 12-digit ISBN, future date, 1,001-character description.
@@ -51,18 +51,18 @@ Full cases: `docs/qa-test-cases.md` (BK-01 … BK-62).
 - No login, roles or permissions (training scope).
 - Data is in memory: lost on backend restart.
 - Tested on Chromium only (Safari/Firefox not checked).
-- No Figma frame was given; layout decisions and designer questions are in `docs/design-check.md`.
+- Layout follows the Figma design (updated Oct 5, 2026); the list of changes is in `docs/design-check.md`.
 
-## 9. Results of checks (run Oct 1, 2026)
+## 9. Results of checks (run Oct 5, 2026)
 | Check | Result |
 |-------|--------|
 | `npm run lint` | ✅ pass, 0 problems |
 | `npx tsc --noEmit` | ✅ pass, 0 errors |
 | `npm run build` | ✅ pass (6 routes) |
-| `npm run test:e2e` | ✅ 45 / 45 passed (13 feature + 32 responsive/dark) |
+| `npm run test:e2e` | ✅ 47 / 47 passed (13 feature + 32 responsive/dark + 2 Figma layout switch) |
 | `npm run test:e2e:mutation` | ✅ 4 / 4 passed (local backend only) |
 | Mock mode (`NEXT_PUBLIC_USE_MOCK=true`) | ✅ 12 / 12 feature tests passed (network-error test does not apply to mock) |
-| `go vet ./...` / `go test ./...` | ✅ pass (8 tests) |
+| `go vet ./...` / `go test ./...` | ✅ pass (9 tests) |
 
 ## 10. Screen sizes and browsers checked
 Chromium at 1920, 1600, 1366, 1280, 1024, 991, 768, 640, 480, 375 (list, create, details) —
