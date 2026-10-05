@@ -13,7 +13,8 @@ import (
 
 func main() {
 	port := getenv("PORT", "8080")
-	origin := getenv("CORS_ORIGIN", "http://localhost:3000")
+	// Local dev + the Vercel demo are allowed by default; CORS_ORIGIN replaces the list
+	origin := getenv("CORS_ORIGIN", "http://localhost:3000,https://ai-frontend-training.vercel.app")
 
 	// Storage + sample data
 	store := book.NewStore(time.Now)

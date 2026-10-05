@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -29,10 +30,20 @@ func Error(w http.ResponseWriter, status int, message string, fieldErrors map[st
 	JSON(w, status, body)
 }
 
-// CORS allows the frontend origin to call the API from the browser.
-func CORS(allowedOrigin string, next http.Handler) http.Handler {
+// CORS allows the listed frontend origins to call the API from the browser.
+// allowedOrigins is a comma-separated list, e.g. "http://localhost:3000,https://app.vercel.app".
+func CORS(allowedOrigins string, next http.Handler) http.Handler {
+	allowed := map[string]bool{}
+	for _, o := range strings.Split(allowedOrigins, ",") {
+		if o = strings.TrimRight(strings.TrimSpace(o), "/"); o != "" {
+			allowed[o] = true
+		}
+	}
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", allowedOrigin)
+		// Echo the caller's origin only if it is on the list
+		if origin := r.Header.Get("Origin"); allowed[origin] {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+		}
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		w.Header().Set("Vary", "Origin")

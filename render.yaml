@@ -1,0 +1,15 @@
+# Render Blueprint for the Go backend (Dashboard → New → Blueprint → this repo).
+# The same values can be typed into an existing Web Service under Settings.
+services:
+  - type: web
+    name: books-api
+    runtime: go
+    plan: free
+    rootDir: backend-go
+    buildCommand: go build -o server ./cmd/server
+    startCommand: ./server
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: CORS_ORIGIN
+        value: http://localhost:3000,https://ai-frontend-training.vercel.app
