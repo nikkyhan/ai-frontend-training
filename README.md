@@ -7,6 +7,7 @@ Go REST API and a Next.js frontend.
 ```
 ai-frontend-training/
 ├── backend-go/      Go 1.22+ REST API (standard library only, in-memory data)
+├── figma/           Figma frames exported as PNG (1440 / 768 / 375, light + dark, states)
 └── frontend-next/   Next.js 15 · React 19 · TypeScript · PrimeReact 10 · SCSS · TanStack Query · Playwright
 ```
 
@@ -46,7 +47,12 @@ A yellow "Mock data" badge shows in the header.
 
 Error shape: `{"statusCode":400,"message":"Validation failed","errors":{"isbn":"ISBN must be exactly 13 digits"}}`
 
-## Checks (all green on Oct 5, 2026)
+## Live demo
+- Frontend: https://ai-frontend-training.vercel.app
+- API: https://ai-frontend-training.onrender.com/health (free tier — sleeps when idle, first request ~1 min)
+- Figma: https://www.figma.com/design/rYDrRiVo4LS8Qa7eOpq88n/Untitled?node-id=0-1
+
+## Checks (all green on Oct 8, 2026)
 ```powershell
 cd backend-go;    go vet ./...; go test ./... -count=1     # 9 tests pass
 cd frontend-next; npm run lint                            # 0 problems
@@ -56,6 +62,15 @@ cd frontend-next; npm run lint                            # 0 problems
                   npm run test:e2e:mutation               # 4 passed — creates/deletes data, local only
 ```
 `npm run test:e2e` also regenerates the screenshots in `frontend-next/docs/screenshots/`.
+
+## Figma comparison
+With the backend and frontend running:
+```powershell
+cd frontend-next; node scripts/figma-compare.mjs      # optional filter, e.g. "List · Light"
+```
+For each PNG in `figma/` it screenshots the same page, state and theme at the same width and writes
+`frontend-next/docs/figma-compare/side-by-side/*.png` (left Figma, right app) plus `report.md` with a
+pixel-difference score. Results and the differences kept on purpose: `frontend-next/docs/design-check.md`.
 
 ## Prompts and skills used
 Followed the training page step by step (setup → design check → mock screen → API → forms →

@@ -80,6 +80,19 @@
   .p-datatable-table {
     min-width: $table-min-width;
   }
+
+  // Header labels: medium weight (Figma)
+  .p-datatable-thead > tr > th {
+    font-weight: $weight-medium;
+  }
+
+  // Column widths measured from the Figma 1440 frame; actions take the rest
+  .col-title { width: $col-title; }
+  .col-isbn { width: $col-isbn; }
+  .col-genre { width: $col-genre; }
+  .col-price { width: $col-price; }
+  .col-stock { width: $col-stock; }
+  .col-published { width: $col-published; }
 }
 
 .book-title-cell {
@@ -114,6 +127,15 @@
   display: flex;
   justify-content: flex-end;
   gap: $space-1;
+
+  // Full-strength brand / danger colours for the icons (Figma)
+  .p-button.p-button-text {
+    color: var(--brand-main);
+  }
+
+  .p-button.p-button-text.p-button-danger {
+    color: var(--danger-main);
+  }
 }
 
 // ---- Cards (≤ 1024px) ----
@@ -128,6 +150,11 @@
   flex-direction: column;
   padding: $space-4;
   border-top: $border-width solid var(--border-main);
+
+  // No divider between the toolbar and the first card (Figma)
+  &:first-child {
+    border-top: none;
+  }
 
   .book-title-link {
     overflow-wrap: anywhere;
@@ -218,6 +245,26 @@
       min-width: $tap-target-min;
       height: $tap-target-min;
       margin: 0;
+      border-radius: $radius-sm;
+    }
+
+    // Page links in brand blue; disabled ones fade (Figma)
+    .p-paginator-first,
+    .p-paginator-prev,
+    .p-paginator-page,
+    .p-paginator-next,
+    .p-paginator-last {
+      color: var(--brand-main);
+    }
+
+    .p-disabled {
+      opacity: 0.4;
+    }
+
+    // Current page: soft brand square (Figma)
+    .p-paginator-page.p-highlight {
+      background: var(--brand-soft);
+      color: var(--brand-main);
     }
   }
 
@@ -230,7 +277,7 @@
 .book-range {
   margin: 0;
   color: var(--text-sub);
-  font-size: $font-tiny;
+  font-size: $font-small;
 }
 
 .book-rows-per-page {
@@ -238,7 +285,7 @@
   align-items: center;
   gap: $space-2;
   color: var(--text-sub);
-  font-size: $font-tiny;
+  font-size: $font-small;
 }
 
 // =============== Create / edit ===============

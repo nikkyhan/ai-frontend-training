@@ -15,6 +15,7 @@ npm run build              # stop `npm run dev` first (both use .next/)
 npm run test:e2e           # Playwright (starts backend + dev server if not running)
 npm run test:e2e:ui        # visual test runner
 npm run test:e2e:mutation  # create/edit/delete tests — local only
+node scripts/figma-compare.mjs  # app vs ../figma PNGs → docs/figma-compare (servers must be running)
 
 ## Folders
 src/app/(main)/books/...        pages: list / create / details/[id] / edit/[id]
@@ -27,7 +28,8 @@ src/utils/                      api-integration (API_ENDPOINTS, QUERIES), format
 src/types/                      Book + API envelope types
 src/styles/                     WM SCSS structure: _variables, _mixins, _base, _header, _component, _form-element, _button, pages/
 e2e/                            Playwright tests (*.mutation.spec.ts = changes data)
-docs/                           design check, QA test cases, build report, screenshots
+docs/                           design check, QA test cases, build report, screenshots, figma-compare
+../figma/                       Figma frames (PNG) — the design reference; font is Inter ("Inter var")
 
 ## Data flow (controller → service → repository, frontend version)
 page.tsx (server) → …View.tsx ("use client") → hook in src/hooks/API → BookService → axios → backend-go.

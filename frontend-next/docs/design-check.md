@@ -22,6 +22,53 @@ The screens were first built before the Figma file existed, then updated on Oct 
 **Kept on purpose:** the load-error box also shows the API's message under "Could not load books"
 (Homework 2 requires API error messages to be visible).
 
+## Updated Figma — side-by-side check (Oct 8, 2026)
+The updated design was exported as 28 PNG frames into [`/figma`](../../figma) — List, Create, Edit and
+Details in Light and Dark at **1440 / 768 / 375**, plus Loading, Error, Empty-search and Validation states.
+`scripts/figma-compare.mjs` opens the same page, state and theme in the running app at the same width,
+saves a screenshot and a side-by-side image (left Figma, right app), and scores the difference.
+
+- Side-by-side images: [`docs/figma-compare/side-by-side/`](figma-compare/side-by-side)
+- App screenshots: [`docs/figma-compare/app/`](figma-compare/app)
+- Scores for every frame: [`docs/figma-compare/report.md`](figma-compare/report.md)
+
+### Fixed after comparing
+| Difference | Figma | Fix |
+|------------|-------|-----|
+| Font | Inter | `$font-family-main` now starts with `"Inter var"` (bundled with the PrimeReact theme) |
+| Page header ≤ 480px | "Add book" on its own row under the title | `.page-header` stacks at `$bp-480` |
+| Table columns | Wide Title column (≈ 28%) | `.col-*` widths from `$col-*` tokens |
+| Table header labels | Medium weight | `font-weight: $weight-medium` |
+| Row action icons | Full brand blue / danger red | `.book-row-actions` icon colours |
+| Pager | Blue links, current page = soft blue rounded square | paginator colours + `$radius-sm` |
+| Footer text | 14px | `.book-range`, `.book-rows-per-page` → `$font-small` |
+| Genre badge | Regular weight | `.genre-tag` → `$weight-regular` |
+| First card (≤ 1024px) | No divider under the toolbar | `.book-card:first-child` |
+| Back-link arrow | 14px | `.back-link .pi` |
+
+### Result (pixel difference, lower is closer)
+| Frame | Before | After |
+|-------|--------|-------|
+| List · Light · 375 | 16.83% | 7.65% |
+| List · Dark · 375 | 20.49% | 8.15% |
+| List · Light · 768 | 4.79% | 3.44% |
+| List · Dark · 768 | 4.90% | 3.67% |
+| List · Light · 1440 | 4.80% | 4.68% |
+| Loading / Error / Empty search (1440) | 1.84 / 1.19 / 2.24% | 1.83 / 1.18 / 2.17% |
+
+Every page height is within 0–6px of its Figma frame (except Validation, see below). Most of what is left is
+text anti-aliasing: Chromium and Figma draw the same Inter font slightly differently, and a 1–2px shift
+counts every pixel of a line as "different". Create, Edit and Details at 375px went from about 6.5% to 8–9.5% when
+the font switched to Inter — the font is now correct, the score just reflects rendering.
+
+### Kept different on purpose
+- **Validation frame:** Figma shows no error under *Genre* and *Published date* after an empty submit.
+  The backend requires both fields, and the form must show the same rules as the backend (Step 4),
+  so the app shows "Genre is required" and "Published date is required" — that is the 28px height difference.
+- **Required-field asterisks:** a few labels in the Figma export have a black `*`; the app keeps every `*` red.
+- **Dark-mode outlined buttons:** Figma shows a faint tinted fill on Edit / Delete; the app keeps the
+  PrimeReact outlined style (transparent). Minor, not changed.
+
 ## WM checklist
 Below is the WM HTML-guideline checklist with the decision taken and the question for the designer.
 

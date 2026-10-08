@@ -86,7 +86,8 @@ $space-8: 32px;
 $space-10: 40px;
 
 // ---- Typography (one font family for the whole site) ----
-$font-family-main: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+// Inter (Figma font) — "Inter var" is the variable font bundled with the PrimeReact Lara theme
+$font-family-main: "Inter var", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 $font-h1: 28px;
 $font-h2: 22px;
 $font-h3: 18px;
@@ -111,6 +112,13 @@ $container-max: 1280px;
 $header-height: 64px;
 $table-min-width: 860px;
 $title-col-min: 200px;
+// Table column widths (Figma 1440 list frame); the actions column takes the rest
+$col-title: 28%;
+$col-isbn: 15%;
+$col-genre: 10.5%;
+$col-price: 9%;
+$col-stock: 10.5%;
+$col-published: 11.5%;
 $filter-search-basis: 280px;
 $filter-select-basis: 220px;
 $form-max-width: 760px;

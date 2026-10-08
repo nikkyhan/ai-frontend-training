@@ -39,6 +39,7 @@ export function BookTable({ items, isFetching, sortBy, sortOrder, onSortChange, 
         <Column
           field="title"
           header="Title"
+          headerClassName="col-title"
           sortable
           body={(b: Book) => (
             <div className="book-title-cell">
@@ -49,18 +50,20 @@ export function BookTable({ items, isFetching, sortBy, sortOrder, onSortChange, 
             </div>
           )}
         />
-        <Column header="ISBN" body={(b: Book) => <span className="book-isbn">{b.isbn}</span>} />
-        <Column header="Genre" body={(b: Book) => <span className="genre-tag">{formatGenre(b.genre)}</span>} />
+        <Column header="ISBN" headerClassName="col-isbn" body={(b: Book) => <span className="book-isbn">{b.isbn}</span>} />
+        <Column header="Genre" headerClassName="col-genre" body={(b: Book) => <span className="genre-tag">{formatGenre(b.genre)}</span>} />
         <Column
           field="price"
           header="Price"
+          headerClassName="col-price"
           sortable
           body={(b: Book) => <span className="book-number">{formatPrice(b.price)}</span>}
         />
-        <Column header="Stock" body={(b: Book) => <StockTag stock={b.stock} />} />
+        <Column header="Stock" headerClassName="col-stock" body={(b: Book) => <StockTag stock={b.stock} />} />
         <Column
           field="publishedDate"
           header="Published"
+          headerClassName="col-published"
           sortable
           body={(b: Book) => <span className="book-date">{formatDate(b.publishedDate)}</span>}
         />
