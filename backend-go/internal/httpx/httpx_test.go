@@ -30,6 +30,31 @@ func TestCORSAllowList(t *testing.T) {
 		}
 	}
 
+	// Wildcard entry: Vercel branch / deploy URLs of one project only
+	hw := CORS("https://app-*-team.vercel.app", ok)
+	wild := []struct {
+		origin string
+		want   bool
+	}{
+		{"https://app-git-main-team.vercel.app", true},
+		{"https://app-abc123-team.vercel.app", true},
+		{"https://app--team.vercel.app", false},           // "*" must match at least one character
+		{"https://app-team.vercel.app", false},            // nothing for "*"
+		{"https://app-x.evil.com-team.vercel.app", false}, // "*" must not span a "."
+		{"https://other-git-main-team.vercel.app", false},
+		{"http://app-git-main-team.vercel.app", false}, // wrong scheme
+	}
+	for _, c := range wild {
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		req.Header.Set("Origin", c.origin)
+		rec := httptest.NewRecorder()
+		hw.ServeHTTP(rec, req)
+		got := rec.Header().Get("Access-Control-Allow-Origin") == c.origin
+		if got != c.want {
+			t.Errorf("wildcard origin %q: allowed = %v, want %v", c.origin, got, c.want)
+		}
+	}
+
 	// Preflight answers 204 without calling the handler
 	req := httptest.NewRequest(http.MethodOptions, "/", nil)
 	req.Header.Set("Origin", "http://localhost:3000")

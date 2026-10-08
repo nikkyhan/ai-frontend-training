@@ -9,7 +9,7 @@ go test ./... -count=1
 go vet ./...
 gofmt -l .
 
-Env: PORT (8080), CORS_ORIGIN (comma list; default http://localhost:3000,https://ai-frontend-training.vercel.app), SEED (set "false" to start empty)
+Env: PORT (8080), CORS_ORIGIN (extra origins, comma list; always allowed: localhost:3000, ai-frontend-training.vercel.app and https://ai-frontend-training-*-nikky-work.vercel.app branch/deploy URLs), SEED ("false" = start empty)
 Deploy: Render builds the module root (`go build -o app`, start `./app`) — that is why main.go exists at the root.
 
 ## Layout

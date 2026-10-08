@@ -15,8 +15,12 @@ import (
 // Run starts the Books API and blocks until the server stops.
 func Run() {
 	port := getenv("PORT", "8080")
-	// Local dev + the Vercel demo are allowed by default; CORS_ORIGIN replaces the list
-	origin := getenv("CORS_ORIGIN", "http://localhost:3000,https://ai-frontend-training.vercel.app")
+	// Always allowed: local dev, the Vercel demo and this project's Vercel branch / deploy URLs
+	// (e.g. ai-frontend-training-git-main-nikky-work.vercel.app). CORS_ORIGIN adds more.
+	origin := "http://localhost:3000,https://ai-frontend-training.vercel.app,https://ai-frontend-training-*-nikky-work.vercel.app"
+	if extra := os.Getenv("CORS_ORIGIN"); extra != "" {
+		origin += "," + extra
+	}
 
 	// Storage + sample data
 	store := book.NewStore(time.Now)
