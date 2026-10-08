@@ -7,10 +7,10 @@ from training Step 8 Part C. Same content as the build report on the homework pa
 | | |
 |---|---|
 | Branch | `main` — https://github.com/nikkyhan/ai-frontend-training |
-| Commit | [`034e6a4`](https://github.com/nikkyhan/ai-frontend-training/commit/034e6a4ed84d3b1f72cb2b1a9f6756380ad8d447) |
+| Commit | [`58ac71b`](https://github.com/nikkyhan/ai-frontend-training/commit/58ac71ba2a73408a39f9a248432016a81ff361d7) — the build handed over; later commits only change docs |
 | Demo | https://ai-frontend-training.vercel.app (frontend, Vercel) |
 | API | https://ai-frontend-training.onrender.com (Go backend, Render free tier) |
-| Date | Oct 5, 2026 |
+| Date | October 8, 2026 |
 
 ## 2. TL tasks covered
 - TL | AI Frontend Training — Building Frontend with Claude Code (for Backend Developers): Homework 1 and Homework 2
@@ -26,7 +26,12 @@ A new **Books** admin area:
 - A new Go API (`backend-go`) behind it.
 
 ## 4. Fixed issues
-None from QA (first build). Fixed during development:
+None from QA yet. Fixed after the code review (October 8, 2026):
+- Dates now use the WM English format with the full month name ("October 26, 2015")
+- A missing book (404) is no longer requested twice before "Book not found" shows
+- QA test cases marked Positive / Negative with the correct count
+
+Fixed during development:
 - Invisible "Add book" button text (CSS `@layer` conflict with PrimeReact)
 - Dark mode lost after page load (hydration mismatch)
 - Render build failing with "no Go files" (added `backend-go/main.go`)
@@ -51,7 +56,7 @@ To test the "No books yet" state, start the backend with `SEED=false`.
 9. Stop the backend → list shows "Could not load books" with Try again.
 10. Check 1920 / 1366 / 768 / 375 and dark mode.
 
-Full cases: `docs/qa-test-cases.md` (BK-01 … BK-74).
+Full cases: `docs/qa-test-cases.md` — 42 cases (24 positive, 17 negative, 1 not applicable).
 
 ## 8. Known issues / not covered
 - No login, roles or permissions (training scope).
@@ -59,9 +64,9 @@ Full cases: `docs/qa-test-cases.md` (BK-01 … BK-74).
 - Free Render backend sleeps after 15 minutes idle; the first request then takes about 1 minute.
 - Tested on Chromium only (Safari/Firefox not checked).
 - The error box also shows the API's message (kept on purpose — Homework 2 requires visible API errors).
-- Layout follows the Figma design (updated Oct 5, 2026); the list of changes is in `docs/design-check.md`.
+- Layout follows the Figma design (checked October 8, 2026 at 1440 / 768 / 375); differences kept on purpose are listed in `docs/design-check.md`.
 
-## 9. Results of checks (run Oct 5, 2026, commit `034e6a4`)
+## 9. Results of checks (run October 8, 2026, commit `58ac71b`)
 | Check | Result |
 |-------|--------|
 | `npm run lint` | ✅ pass, 0 problems |
@@ -69,13 +74,13 @@ Full cases: `docs/qa-test-cases.md` (BK-01 … BK-74).
 | `npm run build` | ✅ pass (6 routes) |
 | `npm run test:e2e` | ✅ 47 / 47 passed (13 feature + 32 responsive/dark + 2 Figma layout switch) |
 | `npm run test:e2e:mutation` | ✅ 4 / 4 passed (local backend only) |
+| Playwright HTML report | `docs/playwright-report/index.html` — full run, 51 / 51 incl. mutation |
 | `go vet ./...` / `go test ./...` | ✅ pass (9 tests) |
-| Live demo, read-only `books.spec.ts` | ✅ 13 / 13 (one test timed out once on a cold start, then passed on two re-runs) |
+| Live demo, read-only `books.spec.ts` | ✅ 13 / 13 (run on the deployed commit `58ac71b`) |
 
 ## 10. Screen sizes and browsers checked
 Chromium at 1920, 1600, 1366, 1280, 1024, 991, 768, 640, 480, 375 (list, create, details) —
 no sideways scroll. Dark mode at 1366 and 375. Screenshots: `docs/screenshots/`.
 
 ## Conclusion
-Deployed and ready for QA: demo on Vercel, API on Render, code on `main`.
-Homework 1 and Homework 2 reviewed on Oct 5, 2026 — both **Pass**.
+Deployed and ready for QA: demo on Vercel, API on Render, code on `main` (build commit `58ac71b`).
