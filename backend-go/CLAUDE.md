@@ -25,3 +25,10 @@ internal/httpx/              JSON helpers, error shape, CORS, request log
 Success: {"data": ..., "meta"?: {page, limit, total, totalPages}, "message"?: "..."}
 Error:   {"statusCode": 400, "message": "Validation failed", "errors"?: {"field": "message"}}
 If you change a rule or field, update the frontend types and book-rules.ts in the same PR.
+
+## Rules
+- Company rules are in WM (Work Manual) on Notion — fetch them, don't guess. If this file and WM differ, WM wins.
+- Error messages are shown to users as-is: plain English, same wording as the frontend
+  (WM | Error Message List). Numbers in messages use the three-digit comma rule ("10,000,000").
+- Dates in the API are `YYYY-MM-DD` (WM English short format); the frontend shows them as "October 26, 2015".
+- Keep validation and frontend `book-rules.ts` rule-for-rule and message-for-message identical.

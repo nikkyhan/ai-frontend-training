@@ -74,7 +74,7 @@ test.describe("Book details", () => {
     await expect(page).toHaveURL(/\/books\/details\/\d+$/);
     await expect(page.getByRole("heading", { name: "Where the Wild Things Are" })).toBeVisible();
     await expect(page.getByText("₩12,500")).toBeVisible();
-    await expect(page.getByText("Nov 9, 1988")).toBeVisible();
+    await expect(page.getByText("November 9, 1988")).toBeVisible();
     await expect(page.getByText("No description")).toBeVisible();
   });
 

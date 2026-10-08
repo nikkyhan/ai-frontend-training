@@ -1,9 +1,9 @@
-// Display formats from WM: dates "May 1, 2016", numbers with a comma every three digits.
+// Display formats from WM: dates "May 1, 2016" (full month name), numbers with a comma every three digits.
 
 const numberFormat = new Intl.NumberFormat("en-US");
-const dateFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+const dateFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
 // Same look as dateFormat, but in the viewer's time zone (for server timestamps)
-const localDateFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric" });
+const localDateFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long", day: "numeric" });
 
 /** 1234567 → "1,234,567" */
 export function formatNumber(value: number): string {
@@ -15,14 +15,14 @@ export function formatPrice(value: number): string {
   return `₩${numberFormat.format(value)}`;
 }
 
-/** "2015-10-26" → "Oct 26, 2015". Parsed as UTC so the day never shifts by time zone. */
+/** "2015-10-26" → "October 26, 2015". Parsed as UTC so the day never shifts by time zone. */
 export function formatDate(isoDate: string): string {
   const [y, m, d] = isoDate.split("-").map(Number);
   if (!y || !m || !d) return isoDate;
   return dateFormat.format(new Date(Date.UTC(y, m - 1, d)));
 }
 
-/** ISO timestamp → "Oct 1, 2026" in the viewer's time zone (details page audit line) */
+/** ISO timestamp → "October 1, 2026" in the viewer's time zone (details page audit line) */
 export function formatTimestampDate(iso: string): string {
   const date = new Date(iso);
   return Number.isNaN(date.getTime()) ? iso : localDateFormat.format(date);

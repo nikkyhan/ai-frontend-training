@@ -2,9 +2,9 @@
 
 **Design:** [Figma — Books](https://www.figma.com/design/rYDrRiVo4LS8Qa7eOpq88n/Untitled?node-id=0-1)
 (frames at 1920 / 1440 / 1024 / 768 / 375, light + dark, supplementary states, UI kit).
-The screens were first built before the Figma file existed, then updated on Oct 5, 2026 to match it.
+The screens were first built before the Figma file existed, then updated on October 5, 2026 to match it.
 
-## What changed to match Figma (Oct 5, 2026)
+## What changed to match Figma (October 5, 2026)
 | Area | Figma | Implemented |
 |------|-------|-------------|
 | List ≤ 1024px | Stacked book cards + "Sort by" dropdown | `BookCardList`, sort dropdown in `BookFilters` (CSS switch at `$bp-1024`) |
@@ -22,7 +22,7 @@ The screens were first built before the Figma file existed, then updated on Oct 
 **Kept on purpose:** the load-error box also shows the API's message under "Could not load books"
 (Homework 2 requires API error messages to be visible).
 
-## Updated Figma — side-by-side check (Oct 8, 2026)
+## Updated Figma — side-by-side check (October 8, 2026)
 The updated design was exported as 28 PNG frames into [`/figma`](../../figma) — List, Create, Edit and
 Details in Light and Dark at **1440 / 768 / 375**, plus Loading, Error, Empty-search and Validation states.
 `scripts/figma-compare.mjs` opens the same page, state and theme in the running app at the same width,
@@ -62,6 +62,8 @@ counts every pixel of a line as "different". Create, Edit and Details at 375px w
 the font switched to Inter — the font is now correct, the score just reflects rendering.
 
 ### Kept different on purpose
+- **Dates:** the Figma frames show "Apr 1, 1988"; the app shows "April 1, 1988". WM's English date format uses the
+  full month name ("May 1, 2016"), and WM wins over the design (code review, October 8, 2026).
 - **Validation frame:** Figma shows no error under *Genre* and *Published date* after an empty submit.
   The backend requires both fields, and the form must show the same rules as the backend (Step 4),
   so the app shows "Genre is required" and "Published date is required" — that is the 28px height difference.

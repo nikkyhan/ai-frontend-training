@@ -52,7 +52,7 @@ Error shape: `{"statusCode":400,"message":"Validation failed","errors":{"isbn":"
 - API: https://ai-frontend-training.onrender.com/health (free tier — sleeps when idle, first request ~1 min)
 - Figma: https://www.figma.com/design/rYDrRiVo4LS8Qa7eOpq88n/Untitled?node-id=0-1
 
-## Checks (all green on Oct 8, 2026)
+## Checks (all green on October 8, 2026)
 ```powershell
 cd backend-go;    go vet ./...; go test ./... -count=1     # 9 tests pass
 cd frontend-next; npm run lint                            # 0 problems

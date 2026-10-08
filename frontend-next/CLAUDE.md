@@ -41,7 +41,7 @@ Services unwrap the `{data, meta}` envelope once. Never read `data.data`.
 - Colour variables: colour + code (`$blue-b1`). Every light token has a dark token with the same name.
 - Class names: lowercase-with-hyphens. Comment almost every block.
 - Validation in `src/utils/book-rules.ts` must match `backend-go/internal/book/validate.go` exactly.
-- Dates: "Oct 26, 2015" (`formatDate`). Numbers: comma every three digits (`formatNumber`, `formatPrice`).
+- Dates: WM English format with the full month name, "October 26, 2015" (`formatDate`). Numbers: comma every three digits (`formatNumber`, `formatPrice`).
 - Every list/detail screen handles loading, empty and error states.
 - PrimeReact's theme is inside a CSS `@layer`: any un-layered rule beats it. Keep global element selectors inside `:where()`.
 - Do not render `<link>`/`<script>` in `<head>` from layouts — Next.js owns `<head>` (hydration mismatch).

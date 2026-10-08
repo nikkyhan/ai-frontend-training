@@ -118,7 +118,8 @@
 }
 
 .book-isbn,
-.book-number {
+.book-number,
+.book-date {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }

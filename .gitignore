@@ -13,6 +13,8 @@ out/
 # Test output
 test-results/
 playwright-report/
+# ...except the copy kept in docs for QA review
+!frontend-next/docs/playwright-report/
 
 # OS / editor
 .DS_Store

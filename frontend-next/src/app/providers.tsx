@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PrimeReactProvider } from "primereact/api";
 import { Toast, type ToastMessage } from "primereact/toast";
 import { ConfirmDialog } from "primereact/confirmdialog";
+import { parseApiError } from "@/utils/api-error";
 
 // ---- Toast context: any component can call useToast().show(...) ----
 type ShowToast = (message: ToastMessage) => void;
@@ -18,7 +19,15 @@ export function Providers({ children }: { children: ReactNode }) {
     () =>
       new QueryClient({
         defaultOptions: {
-          queries: { staleTime: 30_000, retry: 1, refetchOnWindowFocus: false },
+          queries: {
+            staleTime: 30_000,
+            refetchOnWindowFocus: false,
+            // Retry once for network / server errors only; a 4xx (e.g. 404) will not change on retry
+            retry: (failureCount, error) => {
+              const status = parseApiError(error).status;
+              return failureCount < 1 && (status === null || status >= 500);
+            },
+          },
         },
       }),
   );
