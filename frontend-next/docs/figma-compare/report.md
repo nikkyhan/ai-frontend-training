@@ -1,35 +1,19 @@
 # Figma ↔ app comparison
 
-Generated 2026-10-08 by `scripts/figma-compare.mjs` against http://localhost:3000.
+Generated 2026-10-09 by `scripts/figma-compare.mjs` against http://localhost:3000.
 Difference = share of pixels (shared area) whose colour differs noticeably. Lower is closer.
 
 | Frame | Diff | Height (Figma / app) | Side-by-side |
 |---|---|---|---|
-| Books Create · Dark · 1440 | 3.43% | 932 / 938 | [image](side-by-side/books-create-dark-1440.png) |
-| Books Create · Dark · 375 | 8.41% | 1234 / 1235 | [image](side-by-side/books-create-dark-375.png) |
-| Books Create · Dark · 768 | 5.44% | 1203 / 1205 | [image](side-by-side/books-create-dark-768.png) |
-| Books Create · Light · 1440 · Validation | 3.60% | 988 / 1016 | [image](side-by-side/books-create-light-1440-validation.png) |
-| Books Create · Light · 1440 | 3.06% | 936 / 938 | [image](side-by-side/books-create-light-1440.png) |
-| Books Create · Light · 375 | 8.22% | 1234 / 1235 | [image](side-by-side/books-create-light-375.png) |
-| Books Create · Light · 768 | 5.42% | 1203 / 1205 | [image](side-by-side/books-create-light-768.png) |
-| Books Details · Dark · 1440 | 3.34% | 900 / 900 | [image](side-by-side/books-details-dark-1440.png) |
-| Books Details · Dark · 375 | 10.64% | 812 / 812 | [image](side-by-side/books-details-dark-375.png) |
-| Books Details · Dark · 768 | 4.99% | 1024 / 1024 | [image](side-by-side/books-details-dark-768.png) |
-| Books Details · Light · 1440 | 2.58% | 900 / 900 | [image](side-by-side/books-details-light-1440.png) |
-| Books Details · Light · 375 | 7.77% | 812 / 812 | [image](side-by-side/books-details-light-375.png) |
-| Books Details · Light · 768 | 3.78% | 1024 / 1024 | [image](side-by-side/books-details-light-768.png) |
-| Books Edit · Dark · 1440 | 3.21% | 936 / 938 | [image](side-by-side/books-edit-dark-1440.png) |
-| Books Edit · Dark · 375 | 8.58% | 1234 / 1235 | [image](side-by-side/books-edit-dark-375.png) |
-| Books Edit · Dark · 768 | 5.64% | 1203 / 1205 | [image](side-by-side/books-edit-dark-768.png) |
-| Books Edit · Light · 1440 | 3.25% | 936 / 938 | [image](side-by-side/books-edit-light-1440.png) |
-| Books Edit · Light · 375 | 9.57% | 1230 / 1235 | [image](side-by-side/books-edit-light-375.png) |
-| Books Edit · Light · 768 | 5.70% | 1203 / 1205 | [image](side-by-side/books-edit-light-768.png) |
-| Books List · Dark · 1440 | 6.37% | 1223 / 1223 | [image](side-by-side/books-list-dark-1440.png) |
-| Books List · Dark · 375 | 8.36% | 3077 / 3079 | [image](side-by-side/books-list-dark-375.png) |
-| Books List · Dark · 768 | 3.78% | 2872 / 2872 | [image](side-by-side/books-list-dark-768.png) |
-| Books List · Light · 1440 · Empty search | 2.17% | 900 / 900 | [image](side-by-side/books-list-light-1440-empty-search.png) |
-| Books List · Light · 1440 · Error | 1.18% | 900 / 900 | [image](side-by-side/books-list-light-1440-error.png) |
-| Books List · Light · 1440 · Loading | 1.83% | 900 / 900 | [image](side-by-side/books-list-light-1440-loading.png) |
-| Books List · Light · 1440 | 6.05% | 1223 / 1223 | [image](side-by-side/books-list-light-1440.png) |
-| Books List · Light · 375 | 7.83% | 3075 / 3077 | [image](side-by-side/books-list-light-375.png) |
-| Books List · Light · 768 | 3.55% | 2872 / 2872 | [image](side-by-side/books-list-light-768.png) |
+| Books create · 1440px comparison | 3.26% | 938 / 938 | [image](side-by-side/books-create-1440.png) |
+| Books create · 375px comparison | 11.10% | 1235 / 1235 | [image](side-by-side/books-create-375.png) |
+| Books create · 768px comparison | 5.27% | 1205 / 1205 | [image](side-by-side/books-create-768.png) |
+| Books list · 1440px comparison | 12.24% | 1223 / 1223 | [image](side-by-side/books-list-1440.png) |
+| Books list · 375px comparison | 15.42% | 3077 / 3077 | [image](side-by-side/books-list-375.png) |
+| Books list · 768px comparison | 9.01% | 2871 / 2871 | [image](side-by-side/books-list-768.png) |
+| Books details/12 · 1440px comparison | 2.97% | 900 / 900 | [image](side-by-side/books-details-1440.png) |
+| Books details/12 · 375px comparison | 7.95% | 900 / 900 | [image](side-by-side/books-details-375.png) |
+| Books details/12 · 768px comparison | 3.71% | 900 / 900 | [image](side-by-side/books-details-768.png) |
+| Books edit/12 · 1440px comparison | 3.39% | 938 / 938 | [image](side-by-side/books-edit-1440.png) |
+| Books edit/12 · 375px comparison | 11.34% | 1235 / 1235 | [image](side-by-side/books-edit-375.png) |
+| Books edit/12 · 768px comparison | 5.48% | 1205 / 1205 | [image](side-by-side/books-edit-768.png) |

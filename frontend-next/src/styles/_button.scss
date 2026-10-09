@@ -1,18 +1,76 @@
 @use "variables" as *;
 
-// Buttons get their width from padding, never a fixed px width (WM).
+// =============================================================
+// Buttons — text buttons $control-lg, icon-only buttons $control-md, brand / danger tokens.
+// PrimeReact's Lara theme uses #3b82f6 / #ef4444, which fail 4.5:1 with white
+// text (design review). These un-layered rules beat the theme's @layer.
+// =============================================================
+
+// ---- Size: width from padding, never a fixed px width (WM) ----
 .p-button {
-  min-height: $tap-target-min;
+  height: $control-lg;
+  padding-block: 0;
+  padding-inline: $space-5;
   white-space: nowrap;
 }
 
-// Square icon-only buttons in table rows
+// Square icon-only buttons in table rows / cards
 .icon-button.p-button {
-  width: $tap-target-min;
-  min-width: $tap-target-min;
+  width: $control-md;
+  min-width: $control-md;
+  height: $control-md;
   padding: 0;
 }
 
-.theme-toggle.p-button {
-  flex-shrink: 0;
+// Calendar trigger sits inside a field, so it takes the field height
+.p-datepicker-trigger.p-button {
+  width: $control-lg;
+  padding: 0;
+}
+
+// ---- Filled primary: brand blue, white label ----
+.p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-link):not(.p-button-danger) {
+  border-color: var(--brand-main);
+  background: var(--brand-main);
+  color: var(--text-on-brand);
+
+  &:enabled:hover,
+  &:not(button):hover {
+    border-color: var(--brand-hover);
+    background: var(--brand-hover);
+  }
+}
+
+// ---- Filled danger: danger red, white label ----
+.p-button.p-button-danger:not(.p-button-outlined):not(.p-button-text) {
+  border-color: var(--danger-main);
+  background: var(--danger-main);
+  color: var(--text-on-brand);
+
+  &:enabled:hover {
+    border-color: var(--danger-hover);
+    background: var(--danger-hover);
+  }
+}
+
+// ---- Outlined: coloured border + label ----
+.p-button.p-button-outlined {
+  border-color: var(--brand-main);
+  color: var(--brand-main);
+
+  &.p-button-danger {
+    border-color: var(--danger-main);
+    color: var(--danger-main);
+  }
+}
+
+// ---- Text / link: coloured label only, no border ----
+.p-button.p-button-text,
+.p-button.p-button-link {
+  border-color: transparent;
+  color: var(--brand-main);
+
+  &.p-button-danger {
+    color: var(--danger-main);
+  }
 }

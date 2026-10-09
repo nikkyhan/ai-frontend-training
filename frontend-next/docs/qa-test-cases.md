@@ -3,7 +3,7 @@
 Format follows WM | QA Template ("Verify that …"). Covers every area in the training Step 7 table:
 list, create, details, edit, delete, search / filter, paging, validation, roles, states and screen sizes.
 
-- **42 cases — 24 Positive, 17 Negative, 1 not applicable (roles).** IDs are grouped by area (BK-0x, BK-1x, …), so the numbers are not continuous.
+- **46 cases — 24 Positive, 21 Negative, 1 not applicable (roles).** IDs are grouped by area (BK-0x, BK-1x, …), so the numbers are not continuous.
 - **Type:** Positive = the normal, valid path works · Negative = wrong input, missing data or a failure is handled.
 - **Auto:** covered by a Playwright test (file › test). "—" = manual only.
 - **Precondition for all cases** unless stated: backend-go running with seed data (12 books), frontend at
@@ -70,9 +70,9 @@ list, create, details, edit, delete, search / filter, paging, validation, roles,
 ## 7. Screen sizes and theme
 | ID | Type | Precondition | Steps | Expected result | Auto |
 |----|------|--------------|-------|-----------------|------|
-| BK-60 | Positive | — | Verify list, create and details at 1920 / 1600 / 1366 / 1280 / 1024 / 991 / 768 / 640 / 480 / 375 | No sideways page scroll; the table scrolls inside its card | responsive.spec (30 tests) |
-| BK-61 | Positive | — | Verify the theme toggle: moon / sun icon | Whole UI switches dark / light; choice remembered after reload | responsive.spec › dark mode… |
-| BK-62 | Positive | 375px | Verify the phone header | "Books Admin" + Books + Add book + theme toggle fit on one row; "Add book" button under the page title; form buttons full width | screenshots |
+| BK-60 | Positive | — | Verify list, create, details and edit at 1920 / 1600 / 1440 / 1366 / 1280 / 1024 / 991 / 768 / 640 / 480 / 375 | No sideways page scroll; the table scrolls inside its card | responsive.spec (44 tests) |
+| BK-61 | Positive | — | Verify the light theme only | No dark-mode toggle; filled buttons #2563eb / #dc2626 with white text (≥ 4.5:1); every field and text button 46px | responsive.spec › Design tokens |
+| BK-62 | Positive | 375px | Verify the phone header | "Books Admin" + Books + Add book fit on one row; "Add book" button under the page title; form buttons full width | screenshots |
 
 ## 8. Figma layout
 | ID | Type | Precondition | Steps | Expected result | Auto |
@@ -82,3 +82,11 @@ list, create, details, edit, delete, search / filter, paging, validation, roles,
 | BK-72 | Positive | Card view | Verify sorting in the card view: Sort by price (low to high) | First card "The Very Hungry Caterpillar" | responsive.spec › 375px shows 10 cards… |
 | BK-73 | Positive | — | Verify the saving state: submit a form and watch | All fields and Cancel disabled; button shows spinner + "Saving…" | — |
 | BK-74 | Positive | 375px | Verify the phone delete dialog | Delete (red) above Cancel, both full width | — |
+
+## 9. Figma audit fixes (October 9, 2026)
+| ID | Type | Precondition | Steps | Expected result | Auto |
+|----|------|--------------|-------|-----------------|------|
+| BK-80 | Negative | 375px | Verify a 190-character title without spaces on details and edit | Title and subtitle wrap; no sideways page scroll | responsive.spec › Figma audit fixes |
+| BK-81 | Negative | 375px | Verify a 90-character author without spaces on details and list cards | Author wraps; nothing clipped | responsive.spec › Figma audit fixes |
+| BK-82 | Negative | Add book page | Verify screen-reader attributes after an empty submit | Title, Author, ISBN, Genre, Published date, Price, Stock have aria-required, aria-invalid and aria-describedby pointing at their error | responsive.spec › Figma audit fixes |
+| BK-83 | Negative | Add book page | Verify a 1,001-character description while typing | "Description must be at most 1,000 characters" and a red "1,001 / 1,000" appear before submit | responsive.spec › Figma audit fixes |

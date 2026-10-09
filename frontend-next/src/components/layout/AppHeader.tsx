@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { USE_MOCK } from "@/utils/api-integration";
-import { ThemeToggle } from "./ThemeToggle";
 
 const NAV_ITEMS = [
   { href: "/books/list", label: "Books", match: "/books" },
   { href: "/books/create", label: "Add book", match: "/books/create" },
 ];
 
-/** Top bar: brand, main navigation, mock-mode badge and theme toggle. */
+/** Top bar: brand, main navigation and the mock-mode badge. */
 export function AppHeader() {
   const pathname = usePathname();
 
@@ -39,9 +38,8 @@ export function AppHeader() {
           ))}
         </nav>
 
-        {/* Mode badge + theme */}
+        {/* Mock-data badge (Homework 1 mode) */}
         {USE_MOCK && <span className="mock-badge">Mock data</span>}
-        <ThemeToggle />
       </div>
     </header>
   );

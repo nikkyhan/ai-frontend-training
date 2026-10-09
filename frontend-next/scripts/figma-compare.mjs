@@ -1,7 +1,12 @@
 // Figma ↔ app visual comparison.
-// For every PNG exported from Figma (../figma), opens the same page / state / theme in the
-// running app at the same width, saves a screenshot, and writes a side-by-side image
+// For every PNG exported from Figma (../figma), opens the same page / state in the running
+// app at the same width, saves a screenshot, and writes a side-by-side image
 // (left: Figma, right: app) plus a pixel-difference score.
+//
+// Two export formats are supported:
+//  - single frames:      "Books List · Light · 1440.png"
+//  - comparison boards:  "Books list · 1440px comparison.png", "Books edit/12 · 375px comparison.png"
+//    (design panel + old screenshot side by side) — the design panel is cut out automatically.
 //
 // Usage (backend on :8080 and frontend on :3000 must be running):
 //   node scripts/figma-compare.mjs [filter]
@@ -71,9 +76,20 @@ const STATES = {
   },
 };
 
+// "Books list · 1440px comparison.png" or "Books edit/12 · 375px comparison.png"
+function parseBoardName(rel) {
+  const m = rel.match(/Books (list|create|details|edit)[/ ·0-9]*?(\d+)px comparison\.png$/i);
+  if (!m) return null;
+  const state = m[1].toLowerCase();
+  const width = Number(m[2]);
+  return { file: rel, board: true, state, theme: "light", width, slug: `books-${state}-${width}` };
+}
+
 // "Books List · Light · 1440 · Empty search.png" → { screen, theme, width, variant }
 function parseName(file) {
+  if (/comparison\.png$/i.test(file)) return parseBoardName(file);
   const [screen, theme, width, variant] = file.replace(/\.png$/, "").split(" · ");
+  if (!theme || !Number(width)) return null; // not a frame (e.g. the specification boards)
   const base = screen.replace("Books ", "").toLowerCase();
   const state =
     variant === "Loading" ? "loading" : variant === "Error" ? "error" : variant === "Empty search" ? "emptySearch"
@@ -90,6 +106,52 @@ async function bookId(title) {
   const res = await fetch(`${api}/books?search=${encodeURIComponent(title)}`);
   const json = await res.json();
   return json.data[0].id;
+}
+
+// Cut the "Design · Editable layers" panel (exactly `width` px wide) out of a comparison board
+async function extractDesignPanel(page, boardB64, width) {
+  return page.evaluate(
+    async ({ boardB64, width }) => {
+      const img = await new Promise((res) => {
+        const i = new Image();
+        i.onload = () => res(i);
+        i.src = "data:image/png;base64," + boardB64;
+      });
+      const c = document.createElement("canvas");
+      c.width = img.width;
+      c.height = img.height;
+      const g = c.getContext("2d");
+      g.drawImage(img, 0, 0);
+      const d = g.getImageData(0, 0, c.width, c.height).data;
+      const px = (x, y) => { const i = (y * c.width + x) * 4; return [d[i], d[i + 1], d[i + 2]]; };
+      const bg = px(2, 2);
+      const isBg = (x, y) => { const p = px(x, y); return Math.abs(p[0] - bg[0]) + Math.abs(p[1] - bg[1]) + Math.abs(p[2] - bg[2]) < 10; };
+      // top: first row that is solid (non-background at 20 points across the full width) —
+      // title text rows above the panel are sparse, the panel's white header is solid
+      const probe = (y, left) => {
+        if (left + width > c.width) return false;
+        for (let k = 0; k < 20; k++) {
+          if (isBg(left + 2 + Math.floor((k * (width - 4)) / 19), y)) return false;
+        }
+        return true;
+      };
+      let top = -1, left = -1;
+      for (let y = 0; y < c.height && top < 0; y++) {
+        for (let x = 0; x < 80; x++) {
+          if (!isBg(x, y) && probe(y, x)) { top = y; left = x; break; }
+        }
+      }
+      if (top < 0) throw new Error("design panel not found");
+      let bottom = top;
+      while (bottom < c.height && !(isBg(left + 4, bottom) && isBg(left + Math.floor(width / 2), bottom))) bottom++;
+      const out = document.createElement("canvas");
+      out.width = width;
+      out.height = bottom - top;
+      out.getContext("2d").drawImage(img, left, top, width, bottom - top, 0, 0, width, bottom - top);
+      return out.toDataURL("image/png").split(",")[1];
+    },
+    { boardB64, width },
+  );
 }
 
 // Draw Figma + app side by side in a browser canvas and measure the difference
@@ -141,9 +203,11 @@ async function main() {
   mkdirSync(join(OUT, "app"), { recursive: true });
   mkdirSync(join(OUT, "side-by-side"), { recursive: true });
   const { readdirSync } = await import("node:fs");
-  const frames = readdirSync(FIGMA_DIR)
+  const frames = readdirSync(FIGMA_DIR, { recursive: true })
+    .map((f) => String(f).replace(/\\/g, "/"))
     .filter((f) => f.startsWith("Books ") && f.endsWith(".png") && f.includes(filter))
-    .map(parseName);
+    .map(parseName)
+    .filter(Boolean);
   const id = await bookId(DETAIL_TITLE);
 
   const browser = await chromium.launch();
@@ -151,7 +215,10 @@ async function main() {
   const rows = [];
 
   for (const fr of frames) {
-    const figmaBuf = readFileSync(join(FIGMA_DIR, fr.file));
+    let figmaBuf = readFileSync(join(FIGMA_DIR, fr.file));
+    if (fr.board) figmaBuf = Buffer.from(await extractDesignPanel(canvasPage, figmaBuf.toString("base64"), fr.width), "base64");
+    mkdirSync(join(OUT, "figma"), { recursive: true });
+    writeFileSync(join(OUT, "figma", `${fr.slug}.png`), figmaBuf);
     const { h: figH } = pngSize(figmaBuf);
     const ctx = await browser.newContext({ viewport: { width: fr.width, height: figH } });
     const page = await ctx.newPage();

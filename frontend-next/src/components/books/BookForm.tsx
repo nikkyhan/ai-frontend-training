@@ -51,9 +51,13 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
 
   const clientErrors = validateBook(values);
 
-  /** Error to show for a field: server error first, then client error once touched/submitted. */
+  /**
+   * Error to show for a field: server error first, then client error once touched/submitted.
+   * The description length error shows while typing (Figma spec: immediate feedback).
+   */
   const errorFor = (field: keyof BookInput) =>
-    serverErrors[field] ?? (touched[field] || submitted ? clientErrors[field] : undefined);
+    serverErrors[field] ??
+    (touched[field] || submitted || field === "description" ? clientErrors[field] : undefined);
 
   const setField = <K extends keyof BookInput>(field: K, value: BookInput[K]) => {
     setValues((v) => ({ ...v, [field]: value }));
@@ -84,16 +88,22 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
   };
 
   // ---- Field helpers ----
-  const fieldProps = (field: keyof BookInput) => {
+  /** ARIA for the focusable input: required, invalid, and linked to its error text. */
+  const ariaFor = (field: keyof BookInput) => {
     const error = errorFor(field);
     return {
-      id: `book-${field}`,
-      disabled: isSaving,
-      invalid: Boolean(error),
+      "aria-required": field === "description" ? undefined : true,
       "aria-invalid": Boolean(error),
       "aria-describedby": error ? `book-${field}-error` : undefined,
     };
   };
+  /** Props for plain PrimeReact inputs (InputText, InputTextarea). */
+  const fieldProps = (field: keyof BookInput) => ({
+    id: `book-${field}`,
+    disabled: isSaving,
+    invalid: Boolean(errorFor(field)),
+    ...ariaFor(field),
+  });
   const errorText = (field: keyof BookInput) => {
     const error = errorFor(field);
     return error ? (
@@ -170,7 +180,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
             disabled={isSaving}
             className="book-genre-select"
             invalid={Boolean(errorFor("genre"))}
-            aria-describedby={errorFor("genre") ? "book-genre-error" : undefined}
+            pt={{ input: ariaFor("genre") }}
             value={values.genre || null}
             options={GENRE_OPTIONS}
             placeholder="Select a genre"
@@ -189,7 +199,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
             inputId="book-publishedDate"
             disabled={isSaving}
             invalid={Boolean(errorFor("publishedDate"))}
-            aria-describedby={errorFor("publishedDate") ? "book-publishedDate-error" : undefined}
+            pt={{ input: { root: ariaFor("publishedDate") } }}
             value={fromIsoDate(values.publishedDate)}
             dateFormat="yy-mm-dd"
             placeholder="YYYY-MM-DD"
@@ -211,7 +221,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
             inputId="book-price"
             disabled={isSaving}
             invalid={Boolean(errorFor("price"))}
-            aria-describedby={errorFor("price") ? "book-price-error" : undefined}
+            pt={{ input: { root: ariaFor("price") } }}
             value={values.price}
             min={0}
             max={BOOK_RULES.PRICE_MAX}
@@ -231,7 +241,7 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
             inputId="book-stock"
             disabled={isSaving}
             invalid={Boolean(errorFor("stock"))}
-            aria-describedby={errorFor("stock") ? "book-stock-error" : undefined}
+            pt={{ input: { root: ariaFor("stock") } }}
             value={values.stock}
             min={0}
             max={BOOK_RULES.STOCK_MAX}
@@ -260,7 +270,8 @@ export function BookForm({ initial, submitLabel, isSaving, onSubmit, onCancel }:
           />
           <div className="form-hint">
             {errorText("description") ?? <span />}
-            <span>
+            {/* Counter turns red as soon as the limit is passed */}
+            <span className={descriptionLength > BOOK_RULES.DESCRIPTION_MAX ? "form-error" : undefined}>
               {formatNumber(descriptionLength)} / {formatNumber(BOOK_RULES.DESCRIPTION_MAX)}
             </span>
           </div>

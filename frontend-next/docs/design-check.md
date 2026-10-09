@@ -1,8 +1,47 @@
 # Design check — Books list (Homework 1, Step 2 Part A)
 
-**Design:** [Figma — Books](https://www.figma.com/design/rYDrRiVo4LS8Qa7eOpq88n/Untitled?node-id=0-1)
-(frames at 1920 / 1440 / 1024 / 768 / 375, light + dark, supplementary states, UI kit).
-The screens were first built before the Figma file existed, then updated on October 5, 2026 to match it.
+**Design (current):** [Figma — Books, light theme](https://www.figma.com/design/TOKDGIDCcPSzUmeTfrTmLT/Untitled?node-id=0-1) —
+exported to [`/figma`](../../figma): comparison boards for List, Create, Details and Edit at **1440 / 768 / 375**
+(design panel + captured raster), a **baseline audit & responsive specification** and a **states & interaction
+specification**. Light theme only.
+Earlier design: [Figma — Books (October 5)](https://www.figma.com/design/rYDrRiVo4LS8Qa7eOpq88n/Untitled?node-id=0-1).
+The screens were first built before the Figma file existed, then updated on October 5 and 8, 2026 to match it,
+and on October 9 to the light-only design and the design review.
+
+## October 9, 2026 — light-only design, design review and Figma audit
+### Changed
+| Area | Source | Implemented |
+|------|--------|-------------|
+| Dark mode removed | New Figma is light only | `ThemeToggle`, theme script, night tokens and the theme-copy step deleted; the Lara light theme is a plain CSS import |
+| Filled-button contrast (must fix) | Design review #1: white on #3b82f6 = 3.68:1 | Filled buttons `--brand-main` #2563eb (5.17:1), danger `--danger-main` #dc2626 (4.83:1); outlined / text labels use the same tokens |
+| One token per role | Design review #2 | One blue, one red, one main text, one secondary text, one card border (`--border-main`), one field border (`--border-field`); PrimeReact field colours / focus mapped to them |
+| 4px spacing grid | Design review #3 | Spacing tokens are 4 / 8 / 12 / 16 / 20 / 24 / 32 / 40 only |
+| One field height | Design review #4: inputs 46, dropdown 50 | Every text input, number, date and dropdown = `$control-lg` 46px |
+| Three button sizes | Design review #5 | `$control-sm` 40 (nav links), `$control-md` 44 (pager, icon buttons), `$control-lg` 46 (fields and text buttons) |
+| Long unbroken text | Audit: 190-char title widened the 375 edit page to 1374px | Titles, authors and page subtitles wrap (`overflow-wrap: anywhere`) |
+| Accessibility | Audit: no `aria-required`; Genre / date / price / stock without `aria-invalid`; date error on the wrapper | Every required field's focusable input has `aria-required`, `aria-invalid` and `aria-describedby` → its error |
+| Validation timing | Audit: over-limit description only flagged on submit | Error and a red "1,001 / 1,000" counter show while typing |
+
+All of the above are covered by Playwright (`responsive.spec.ts › Design tokens`, `› Figma audit fixes`).
+
+### Comparison with the new Figma (`scripts/figma-compare.mjs`, design panel cut out of each board)
+| Screen | 1440 | 768 | 375 |
+|--------|------|-----|-----|
+| List | 12.24% | 9.01% | 15.42% |
+| Create | 3.26% | 5.27% | 11.10% |
+| Details | 2.97% | 3.71% | 7.95% |
+| Edit | 3.39% | 5.48% | 11.34% |
+
+Every page is exactly the height of its Figma frame. The remaining difference is deliberate, from the design review:
+the genre / sort dropdowns are 46px instead of 50px (everything below them moves up 4px, which counts every row of the
+list as "different"), filled buttons are the darker #2563eb, row icon buttons are 44px instead of 48px, and field text
+uses the single text token. The Figma file should be updated with the same values (see "Figma file — to do").
+
+### Figma file — to do (design review items that live in Figma)
+- Bind buttons to #2563eb / #dc2626 and fields to one 46px height; one variable per role; remove the ~70 `metric/…` variables.
+- Make every required asterisk red.
+- Keep one page for the design + UI kit, one page for comparisons; draw (or list as "not drawn") the delete dialog,
+  toasts, "No books yet" and the not-found page; hover / focus / disabled are declared, not drawn.
 
 ## What changed to match Figma (October 5, 2026)
 | Area | Figma | Implemented |
@@ -22,7 +61,7 @@ The screens were first built before the Figma file existed, then updated on Octo
 **Kept on purpose:** the load-error box also shows the API's message under "Could not load books"
 (Homework 2 requires API error messages to be visible).
 
-## Updated Figma — side-by-side check (October 8, 2026)
+## History — side-by-side check (October 8, 2026; this design had light + dark frames, dark mode removed October 9)
 The updated design was exported as 28 PNG frames into [`/figma`](../../figma) — List, Create, Edit and
 Details in Light and Dark at **1440 / 768 / 375**, plus Loading, Error, Empty-search and Validation states.
 `scripts/figma-compare.mjs` opens the same page, state and theme in the running app at the same width,
@@ -81,7 +120,7 @@ Below is the WM HTML-guideline checklist with the decision taken and the questio
 | 3 | Same components on every screen | Done | One table, one form, one state box, one page header reused on all 4 pages |
 | 4 | One font family, clear sizes | Decided | System font stack; h1 28 / h2 22 / h3 18 / body 16 / small 14 / tiny 12. *Q: brand font?* |
 | 5 | Text wrapping on small screens | Done | Titles wrap (`overflow-wrap: anywhere`); table scrolls inside its card instead |
-| 6 | Font + colour library | Decided | Palette `$grey-g1…`, `$blue-b1…`, etc. with `[day]`/`[night]` tokens. *Q: official palette?* |
+| 6 | Font + colour library | Decided | Palette `$grey-g1…`, `$blue-b1…`, one theme token per role (light only). *Q: official palette?* |
 | 7 | Empty / loading / no-image designs | Decided | Skeleton rows for loading; "No books yet" and "No books match your search" empty states; error state with retry. *Q: approve copy and icons* |
 | 8 | Button width from padding | Done | No fixed button widths; full-width buttons only on phones (≤480px) |
 | 9 | Images fit their box | N/A | Screen has no images; global `img { max-width: 100% }` |
@@ -90,4 +129,4 @@ Below is the WM HTML-guideline checklist with the decision taken and the questio
 ## Open questions for the designer
 1. Mobile table: keep horizontal scroll inside the card (current), or switch to stacked cards ≤640px?
 2. Should the low-stock threshold (≤ 5) be shown as a warning colour?
-3. Dark mode colours — are the night values acceptable, or will design supply them?
+3. ~~Dark mode colours~~ — resolved: the design is light only (October 9).

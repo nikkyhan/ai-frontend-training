@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "primeicons/primeicons.css";
+// Light theme only (the design has no dark mode)
+import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "@/styles/style.scss";
 import { Providers } from "./providers";
-import { THEME_INIT_SCRIPT } from "@/components/layout/theme";
 
 export const metadata: Metadata = {
   title: { default: "Books Admin", template: "%s | Books Admin" },
@@ -14,11 +15,8 @@ export const metadata: Metadata = {
 /** Root layout: wraps every page. Server component (no "use client"). */
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    // suppressHydrationWarning: the theme script sets data-theme on <html> before React loads
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body>
-        {/* Runs first: applies the saved theme and adds the PrimeReact theme stylesheet */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <Providers>{children}</Providers>
       </body>
     </html>

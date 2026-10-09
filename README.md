@@ -7,14 +7,14 @@ Go REST API and a Next.js frontend.
 ```
 ai-frontend-training/
 ├── backend-go/      Go 1.22+ REST API (standard library only, in-memory data)
-├── figma/           Figma frames exported as PNG (1440 / 768 / 375, light + dark, states)
+├── figma/           Figma export: comparison boards (1440 / 768 / 375, light) + audit and states specifications
 └── frontend-next/   Next.js 15 · React 19 · TypeScript · PrimeReact 10 · SCSS · TanStack Query · Playwright
 ```
 
 ## What I built
 | Homework | What | Where |
 |----------|------|-------|
-| 1 — screen from a design | Book list with loading / empty / filled states using **mock data**, WM SCSS structure and naming, light/dark tokens, checked at all 10 WM widths | `NEXT_PUBLIC_USE_MOCK=true`, `docs/design-check.md`, `docs/screenshots/` |
+| 1 — screen from a design | Book list with loading / empty / filled states using **mock data**, WM SCSS structure and naming, one token per role (light theme only), checked at 11 widths | `NEXT_PUBLIC_USE_MOCK=true`, `docs/design-check.md`, `docs/screenshots/` |
 | 2 — full feature with real API | List with search, genre filter, sort and paging; create/edit forms with validation equal to the backend; details; delete with confirm; API error messages shown; WM date/number formats; QA cases; Playwright tests; QA build report | `backend-go/`, `frontend-next/src/`, `frontend-next/e2e/`, `frontend-next/docs/` |
 
 ## How to run
@@ -59,7 +59,7 @@ cd frontend-next; npm run lint                            # 0 problems
                   npx tsc --noEmit                        # 0 errors
                   npm run build                           # stop `npm run dev` first
                   npm run test:e2e                        # 47 passed (starts backend + frontend if needed)
-                  npm run test:e2e:mutation               # 4 passed — creates/deletes data, local only
+                  npm run test:e2e:mutation               # 4 passed — creates/deletes data; local by default, QA may run on the demo
 ```
 `npm run test:e2e` also regenerates the screenshots in `frontend-next/docs/screenshots/`.
 
@@ -91,7 +91,7 @@ each fix, and `docs/build-report.md`.
    theme in a CSS `@layer`, and *any* un-layered rule beats layered rules regardless of
    specificity — so my global `a { color }` overrode `.p-button { color: white }`.
    Fix: `:where(a:not(.p-button)) { … }` (zero specificity, skips buttons).
-2. **Dark mode was lost after page load (hydration error).** Cause: I rendered the theme
+2. **Dark mode was lost after page load (hydration error)** — dark mode was later removed (October 9) to match the light-only design, but the lesson stands. Cause: I rendered the theme
    `<link>` in `<head>`; Next.js injects its own `<meta>` tags there, and React 19 also matches
    stylesheet links by `href`, so the server and client trees differed and React rebuilt the page,
    dropping `data-theme`. Fix: an inline script creates the theme `<link>` itself, so React never

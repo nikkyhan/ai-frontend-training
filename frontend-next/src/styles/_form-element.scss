@@ -1,6 +1,60 @@
 @use "variables" as *;
 @use "mixins" as *;
 
+// =============================================================
+// Fields — one height ($control-lg) for every text input, number input,
+// date input and dropdown, and one border / text / focus token (design review).
+// =============================================================
+.p-inputtext:not(textarea),
+.p-dropdown,
+.p-multiselect {
+  height: $control-lg;
+}
+
+.p-inputtext,
+.p-dropdown,
+.p-multiselect {
+  border-color: var(--border-field);
+  color: var(--text-main);
+}
+
+// Dropdown: label vertically centred inside the field box
+.p-dropdown {
+  align-items: center;
+
+  .p-dropdown-label {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    padding-block: 0;
+    border: 0;
+  }
+}
+
+.p-inputtext::placeholder,
+.p-dropdown .p-dropdown-label.p-placeholder {
+  color: var(--text-sub);
+}
+
+// Hover and focus use the brand token, not the theme's #3b82f6
+.p-inputtext:enabled:hover,
+.p-dropdown:not(.p-disabled):hover {
+  border-color: var(--brand-main);
+}
+
+.p-inputtext:enabled:focus,
+.p-dropdown:not(.p-disabled).p-focus {
+  border-color: var(--brand-main);
+  box-shadow: 0 0 0 $border-width var(--brand-main);
+}
+
+// Invalid fields keep the danger token
+.p-inputtext.p-invalid,
+.p-dropdown.p-invalid,
+.p-invalid > .p-inputtext {
+  border-color: var(--danger-main);
+}
+
 // ---- Form layout: 2 columns on desktop, 1 column on tablet/phone ----
 .form-grid {
   display: grid;

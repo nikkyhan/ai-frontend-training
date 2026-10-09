@@ -14,14 +14,14 @@ npm run lint
 npm run build              # stop `npm run dev` first (both use .next/)
 npm run test:e2e           # Playwright (starts backend + dev server if not running)
 npm run test:e2e:ui        # visual test runner
-npm run test:e2e:mutation  # create/edit/delete tests — local only
+npm run test:e2e:mutation  # create/edit/delete tests — local by default; QA may run them on the demo (PLAYWRIGHT_BASE_URL)
 node scripts/figma-compare.mjs  # app vs ../figma PNGs → docs/figma-compare (servers must be running)
 
 ## Folders
 src/app/(main)/books/...        pages: list / create / details/[id] / edit/[id]
 src/components/books/           book screens (…View.tsx) and pieces (table, form, filters)
 src/components/common/          PageHeader, StateBox, LinkButton
-src/components/layout/          AppHeader, ThemeToggle, theme helpers
+src/components/layout/          AppHeader
 src/api-services/               BookService (axios) + mock/MockBookService
 src/hooks/API/books/            TanStack Query hooks (useGetBooksList, useGetBookDetails, useBookMutations)
 src/utils/                      api-integration (API_ENDPOINTS, QUERIES), format, book-rules, api-error
@@ -38,7 +38,10 @@ Services unwrap the `{data, meta}` envelope once. Never read `data.data`.
 ## Rules
 - Follow the style of the file you are editing. Reuse components before making new ones.
 - No hardcoded colours or sizes in components — add to `_variables.scss`, use `var(--token)` for theme colours.
-- Colour variables: colour + code (`$blue-b1`). Every light token has a dark token with the same name.
+- Light theme only (the design has no dark mode). Colour variables: colour + code (`$blue-b1`); ONE theme token per role (`--brand-main`, `--text-sub`, `--border-field`, …).
+- Filled buttons use `--brand-main` #2563eb / `--danger-main` #dc2626 with white text (≥ 4.5:1). Never the PrimeReact #3b82f6 / #ef4444.
+- Sizes: `$control-sm` 40 (nav links), `$control-md` 44 (pager, icon buttons), `$control-lg` 46 (every field and text button). Spacing on the 4px grid.
+- Every required field gets `aria-required`, `aria-invalid` and `aria-describedby` on its focusable input (use `pt` for Dropdown / Calendar / InputNumber).
 - Class names: lowercase-with-hyphens. Comment almost every block.
 - Validation in `src/utils/book-rules.ts` must match `backend-go/internal/book/validate.go` exactly.
 - Dates: WM English format with the full month name, "October 26, 2015" (`formatDate`). Numbers: comma every three digits (`formatNumber`, `formatPrice`).

@@ -101,10 +101,13 @@
   min-width: $title-col-min;
 }
 
+// Titles and authors wrap long unbroken words (table, cards) instead of
+// widening the column or clipping on phones (Figma audit finding)
 .book-title-link {
   color: var(--brand-main);
   font-weight: $weight-medium;
   text-decoration: none;
+  overflow-wrap: anywhere;
 
   &:hover {
     color: var(--brand-hover);
@@ -115,6 +118,7 @@
 .book-author {
   color: var(--text-sub);
   font-size: $font-small;
+  overflow-wrap: anywhere;
 }
 
 .book-isbn,
@@ -243,8 +247,8 @@
     .p-paginator-page,
     .p-paginator-next,
     .p-paginator-last {
-      min-width: $tap-target-min;
-      height: $tap-target-min;
+      min-width: $control-md;
+      height: $control-md;
       margin: 0;
       border-radius: $radius-sm;
     }

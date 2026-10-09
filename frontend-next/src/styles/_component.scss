@@ -32,6 +32,8 @@
 }
 
 .page-subtitle {
+  // Long unbroken titles (e.g. 190 characters) wrap instead of widening the page
+  overflow-wrap: anywhere;
   margin: $space-1 0 0;
   color: var(--text-sub);
   font-size: $font-small;

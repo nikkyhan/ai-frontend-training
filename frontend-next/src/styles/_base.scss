@@ -1,15 +1,10 @@
 @use "variables" as *;
 @use "mixins" as *;
 
-// ---- Theme tokens: light by default, dark when <html data-theme="dark"> ----
+// ---- Theme tokens (light only — the design has no dark mode) ----
 :root {
   @include theme-tokens($theme-day);
   color-scheme: light;
-}
-
-:root[data-theme="dark"] {
-  @include theme-tokens($theme-night);
-  color-scheme: dark;
 }
 
 // ---- Base elements ----

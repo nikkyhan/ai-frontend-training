@@ -1,7 +1,7 @@
 @use "variables" as *;
 @use "mixins" as *;
 
-// ---- App header: brand, navigation, theme toggle ----
+// ---- App header: brand and navigation ----
 .app-header {
   position: sticky;
   top: 0;
@@ -32,7 +32,7 @@
   text-decoration: none;
   white-space: nowrap;
 
-  // Phones: slightly smaller so name, nav and theme toggle fit on one row
+  // Phones: slightly smaller so the name and nav fit on one row
   @include bp-down($bp-480) {
     font-size: $font-body;
   }
@@ -46,7 +46,10 @@
 }
 
 .app-nav-link {
-  padding: $space-2 $space-3;
+  display: inline-flex;
+  align-items: center;
+  height: $control-sm;
+  padding: 0 $space-3;
   border-radius: $radius-sm;
   color: var(--text-sub);
   font-weight: $weight-medium;
