@@ -50,7 +50,7 @@ Error shape: `{"statusCode":400,"message":"Validation failed","errors":{"isbn":"
 ## Live demo
 - Frontend: https://ai-frontend-training.vercel.app
 - API: https://ai-frontend-training.onrender.com/health (free tier — sleeps when idle, first request ~1 min)
-- Figma: https://www.figma.com/design/rYDrRiVo4LS8Qa7eOpq88n/Untitled?node-id=0-1
+- Figma (light theme): https://www.figma.com/design/TOKDGIDCcPSzUmeTfrTmLT/Untitled?node-id=0-1&p=f&t=UDgHouXwkjEJypZ4-0
 
 ## Checks (all green on October 8, 2026)
 ```powershell

@@ -1,6 +1,6 @@
 # Design check — Books list (Homework 1, Step 2 Part A)
 
-**Design (current):** [Figma — Books, light theme](https://www.figma.com/design/TOKDGIDCcPSzUmeTfrTmLT/Untitled?node-id=0-1) —
+**Design (current):** [Figma — Books, light theme](https://www.figma.com/design/TOKDGIDCcPSzUmeTfrTmLT/Untitled?node-id=0-1&p=f&t=UDgHouXwkjEJypZ4-0) —
 exported to [`/figma`](../../figma): comparison boards for List, Create, Details and Edit at **1440 / 768 / 375**
 (design panel + captured raster), a **baseline audit & responsive specification** and a **states & interaction
 specification**. Light theme only.
